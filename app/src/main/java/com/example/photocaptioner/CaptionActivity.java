@@ -53,6 +53,7 @@ public class CaptionActivity extends AppCompatActivity {
                 exif = new ExifInterface(currentPhotoPath);
                 exif.setAttribute(ExifInterface.TAG_IMAGE_DESCRIPTION, capText.getText().toString());
                 exif.saveAttributes();
+                this.finish();
             }catch (IOException e){
                 alert("Exception Warning", e.getMessage());
             }
