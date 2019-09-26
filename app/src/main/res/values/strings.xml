@@ -1,10 +1,9 @@
 <resources>
     <string name="app_name">Photo Captioner</string>
     <string name="photo_button">Take a Photo</string>
-    <string name="picture_button">Take a Picture</string>
+    <string name="picture_button">Add Photo</string>
     <string name="save_button">Save</string>
     <string name="cancel_button">Cancel</string>
-    <string name="left_button">Left</string>
-    <string name="right_button">Right</string>
     <string name="cap_button">Caption</string>
+    <string name="filter_button">Filter</string>
 </resources>
