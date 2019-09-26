@@ -33,11 +33,14 @@ public class MainActivity extends AppCompatActivity {
     public String selectedPhoto;
     public View selectedPhotoView;
     public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
+    public ImageAdapter iAdapter;
+    public boolean activeFilter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        activeFilter = false;
 
         checkPermission();
 
@@ -46,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
          * Added an onclick listener for photo selection purposes.
          */
         GridView gv = (GridView) findViewById(R.id.gridView);
-        final ImageAdapter iAdapter = new ImageAdapter(this);
+         iAdapter = new ImageAdapter(this);
         gv.setAdapter(iAdapter);
         gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
@@ -77,6 +80,24 @@ public class MainActivity extends AppCompatActivity {
                 editCaption(view, selectedPhoto);
             }
         });
+
+        Button addButton = (Button) findViewById(R.id.btnPicture);
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                iAdapter.updateList();
+                iAdapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        if(!activeFilter){
+            iAdapter.updateList();
+        }
+        iAdapter.notifyDataSetChanged();
     }
 
     /** function for Caption button */
