@@ -21,11 +21,21 @@ public class ImageAdapter extends BaseAdapter {
         images = updateImageList();
     }
 
+    /**
+     * Updates the array of image file paths from the app's downloads folder.
+     *
+     * @return returns an array of file paths;
+     */
     public File[] updateImageList() {
         File directory = new File(mContext.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).toString());
         return directory.listFiles();
     }
 
+    /**
+     * This function gives the file path for a particular image in the images array.
+     * @param position this is the position of the photo selected, starting from index 0
+     * @return returns the path of the image from the selected position
+     */
     public String getPath(int position){
         return images[position].getAbsolutePath();
     }
