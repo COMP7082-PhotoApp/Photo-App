@@ -37,9 +37,15 @@
             android:id="@+id/btnPicture"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/btnPhoto"
             android:layout_alignParentEnd="true"
             android:text="@string/picture_button"
+            android:layout_weight="1"/>
+        <Button
+            android:id="@+id/btnFilter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/filter_button"
             android:layout_weight="1"/>
         <Button
             android:id="@+id/btnCaption"

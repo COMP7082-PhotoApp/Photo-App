@@ -38,6 +38,10 @@ public class MainActivity extends AppCompatActivity {
 
         checkPermission();
 
+        /** Creates a gridview and adapter to handle the images for the gridview.
+         * The adapter creation and methods are handled by ImageAdapter.
+         * Added an onclick listener for photo selection purposes.
+         */
         GridView gv = (GridView) findViewById(R.id.gridView);
         final ImageAdapter iAdapter = new ImageAdapter(this);
         gv.setAdapter(iAdapter);
@@ -48,6 +52,11 @@ public class MainActivity extends AppCompatActivity {
                 selectedPhotoView = v;
             }
         });
+
+        /** Below are the buttons for the three functions.  The caption button is working
+         * but the other buttons need to be implemented.  The filtering of photos can be
+         * handled inside ImageAdapter using a filtering of the exif metadata.
+         */
 
         Button captionButton = (Button) findViewById(R.id.btnCaption);
         captionButton.setOnClickListener(new View.OnClickListener() {
