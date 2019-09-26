@@ -31,6 +31,18 @@ public class ImageAdapter extends BaseAdapter {
         return directory.listFiles();
     }
 
+    public void updateList(){
+        File directory = new File(mContext.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).toString());
+        images = directory.listFiles();
+    }
+
+    public void setImages(File[] filteredList){
+        images = filteredList;
+    }
+
+    public File[] getImages(){
+        return images;
+    }
     /**
      * This function gives the file path for a particular image in the images array.
      * @param position this is the position of the photo selected, starting from index 0
