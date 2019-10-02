@@ -48,7 +48,7 @@ public class CameraActivity extends AppCompatActivity {
         //Create file path to Download folder to check if it exists and later generate a URI
 
         File localDirectory = getFilesDir();
-        File downloadFolder = new File(localDirectory, "Download");
+        File downloadFolder = new File(getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).toString());
 
         //Create the Download folder if it does not exist
         if(!downloadFolder.exists()) {
