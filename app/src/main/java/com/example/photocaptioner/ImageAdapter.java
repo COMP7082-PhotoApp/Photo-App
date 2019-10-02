@@ -3,6 +3,8 @@ package com.example.photocaptioner;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.os.Environment;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 
 import java.io.File;
+import java.io.IOException;
 
 public class ImageAdapter extends BaseAdapter {
     private Context mContext;
@@ -69,10 +72,39 @@ public class ImageAdapter extends BaseAdapter {
         imageView.setLayoutParams(new GridView.LayoutParams(200, 200));
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         imageView.setPadding(8, 8, 8, 8);
+        int orientation;
 
         if(position < images.length){
             Bitmap myBitmap = BitmapFactory.decodeFile(images[position].getAbsolutePath());
-            imageView.setImageBitmap(myBitmap);
+            Matrix m = new Matrix();
+
+            try {
+                ExifInterface exif = new ExifInterface(getPath (position));
+
+                orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 1);
+                System.out.println ("Orientation code: " + orientation);
+
+                switch (orientation){
+                    case ExifInterface.ORIENTATION_NORMAL:
+                        break;
+                    case ExifInterface.ORIENTATION_ROTATE_90:
+                        m.postRotate(90);
+                        break;
+                    case ExifInterface.ORIENTATION_ROTATE_180:
+                        m.postRotate (180);
+                        break;
+                    case ExifInterface.ORIENTATION_ROTATE_270:
+                        m.postRotate (270);
+                        break;
+                    default:
+                        break;
+                }
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            imageView.setImageBitmap(Bitmap.createBitmap (myBitmap, 0, 0, myBitmap.getWidth (), myBitmap.getHeight (), m, true));
         }
         return imageView;
     }
