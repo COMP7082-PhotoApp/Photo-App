@@ -26,13 +26,15 @@
         android:orientation="horizontal"
         android:layout_weight="1"
         android:weightSum="3">
+
         <Button
             android:id="@+id/btnPhoto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:text="@string/photo_button"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:onClick="openCameraScreen"
+            android:text="@string/photo_button" />
         <Button
             android:id="@+id/btnPicture"
             android:layout_width="wrap_content"
