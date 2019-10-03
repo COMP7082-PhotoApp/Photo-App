@@ -75,9 +75,13 @@ public class ImageAdapter extends BaseAdapter {
         int orientation;
 
         if(position < images.length){
-            Bitmap myBitmap = BitmapFactory.decodeFile(images[position].getAbsolutePath());
-            Matrix m = new Matrix();
+            Bitmap original = BitmapFactory.decodeFile(images[position].getAbsolutePath());
+            Bitmap myBitmap = Bitmap.createScaledBitmap (original, 200, 200, true);
+            if (original != myBitmap)
+                original.recycle();
+            original = null;
 
+            Matrix m = new Matrix();
             try {
                 ExifInterface exif = new ExifInterface(getPath (position));
 
@@ -105,6 +109,8 @@ public class ImageAdapter extends BaseAdapter {
                 e.printStackTrace();
             }
             imageView.setImageBitmap(Bitmap.createBitmap (myBitmap, 0, 0, myBitmap.getWidth (), myBitmap.getHeight (), m, true));
+            myBitmap.recycle ();
+            myBitmap = null;
         }
         return imageView;
     }
