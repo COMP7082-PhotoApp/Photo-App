@@ -26,7 +26,7 @@ import java.util.Date;
 public class CameraActivity extends AppCompatActivity {
 
     String currentPhotoPath = null;
-
+    private File newPhoto;
     static final int REQUEST_TAKE_PHOTO = 1;
 
     @Override
@@ -87,7 +87,7 @@ public class CameraActivity extends AppCompatActivity {
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
 
             // Creates an image file to store the new photo
-            File newPhoto = newImageFile();
+            newPhoto = newImageFile();
 
             // Check if creation of a new photo file was successful
             if (newPhoto != null) {
@@ -109,6 +109,14 @@ public class CameraActivity extends AppCompatActivity {
 
         }
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_CANCELED){
+            boolean delete = newPhoto.delete ();
+        }
     }
 
 }
