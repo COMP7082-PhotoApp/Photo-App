@@ -123,6 +123,12 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /** function for Filter button */
+    public void openFilterActivity(View v){
+        Intent intent = new Intent(this, SearchActivity.class);
+        startActivity(intent);
+    }
+
     /** function for dialog of alert */
     public void alert(String title, String message){
         new AlertDialog.Builder(this)
