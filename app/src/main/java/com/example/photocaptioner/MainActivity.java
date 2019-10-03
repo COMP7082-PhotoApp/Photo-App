@@ -20,10 +20,12 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import FilterImages.Filter;
 
 import java.io.File;
 import java.io.IOException;
@@ -35,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     public View selectedPhotoView;
     public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
     public ImageAdapter iAdapter;
+    public Filter iFilter;
     public boolean activeFilter;
 
     @Override
@@ -44,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
         activeFilter = false;
 
         checkPermission();
+
+        iFilter = new Filter();
 
         /** Creates a gridview and adapter to handle the images for the gridview.
          * The adapter creation and methods are handled by ImageAdapter.
@@ -90,6 +95,15 @@ public class MainActivity extends AppCompatActivity {
                 iAdapter.notifyDataSetChanged();
             }
         });
+
+        Button filterButton = (Button) findViewById(R.id.btnFilter);
+        filterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EditText searchText = findViewById(R.id.searchView);
+                filterPhotos(view, searchText.getText().toString());
+            }
+        });
     }
 
     @Override
@@ -99,6 +113,14 @@ public class MainActivity extends AppCompatActivity {
             iAdapter.updateList();
         }
         iAdapter.notifyDataSetChanged();
+    }
+
+    /** function for Filter button */
+    public void filterPhotos(View view, String path) {
+        File[] images = iAdapter.getImages();
+        iFilter.filterImages(images, path);
+        iAdapter.notifyDataSetChanged();
+        iAdapter.updateList();
     }
 
     /** function for Caption button */
