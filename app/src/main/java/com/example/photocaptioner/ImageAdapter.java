@@ -19,32 +19,28 @@ import java.io.IOException;
 
 public class ImageAdapter extends BaseAdapter {
     private Context mContext;
+    private boolean activeFilter;
     public File[] images;
 
     public ImageAdapter(Context c) {
         mContext = c;
-        images = updateImageList();
+        updateList ();
+        activeFilter = false;
     }
 
-    /**
-     * Updates the array of image file paths from the app's downloads folder.
-     *
-     * @return returns an array of file paths;
-     */
-    public File[] updateImageList() {
-        File directory = new File(mContext.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).toString());
-        return directory.listFiles();
-    }
+
 
     public void updateList(){
         File directory = new File(mContext.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).toString());
         images = directory.listFiles();
+        activeFilter = false;
     }
 
 
 
     public void setImages(File[] filteredList){
         images = filteredList;
+        activeFilter = true;
     }
 
     public File[] getImages(){
