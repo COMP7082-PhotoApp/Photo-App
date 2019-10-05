@@ -125,7 +125,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /** function to start activity for camera portion of app */
-
     public void openCameraScreen(View v){
         Intent intent = new Intent(this, CameraActivity.class);
         startActivity(intent);
@@ -135,6 +134,12 @@ public class MainActivity extends AppCompatActivity {
     public void openFilterActivity(View v){
         System.out.println("Made it inside openFilterActivity");
         Intent intent = new Intent(this, SearchActivity.class);
+        startActivity(intent);
+    }
+
+    /** function to start activity for camera portion of app */
+    public void openCalendarScreen(View v){
+        Intent intent = new Intent(this, CalendarActivity.class);
         startActivity(intent);
     }
 
