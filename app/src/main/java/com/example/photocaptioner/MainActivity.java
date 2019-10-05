@@ -82,6 +82,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        Button filterButton = (Button) findViewById(R.id.btnFilter);
+        filterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openFilterActivity(view);
+            }
+        });
+
         Button addButton = (Button) findViewById(R.id.btnPicture);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
 
     /** function for Filter button */
     public void openFilterActivity(View v){
+        System.out.println("Made it inside openFilterActivity");
         Intent intent = new Intent(this, SearchActivity.class);
         startActivity(intent);
     }
