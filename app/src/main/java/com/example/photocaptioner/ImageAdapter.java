@@ -84,9 +84,7 @@ public class ImageAdapter extends BaseAdapter {
             Matrix m = new Matrix();
             try {
                 ExifInterface exif = new ExifInterface(getPath (position));
-
                 orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 1);
-                System.out.println ("Orientation code: " + orientation);
 
                 switch (orientation){
                     case ExifInterface.ORIENTATION_NORMAL:
