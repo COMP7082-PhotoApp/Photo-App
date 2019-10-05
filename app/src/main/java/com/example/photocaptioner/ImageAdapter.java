@@ -17,30 +17,26 @@ import java.io.IOException;
 
 public class ImageAdapter extends BaseAdapter {
     private Context mContext;
+    private boolean activeFilter;
     public File[] images;
 
     public ImageAdapter(Context c) {
         mContext = c;
-        images = updateImageList();
+        updateList ();
+        activeFilter = false;
     }
 
-    /**
-     * Updates the array of image file paths from the app's downloads folder.
-     *
-     * @return returns an array of file paths;
-     */
-    public File[] updateImageList() {
-        File directory = new File(mContext.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).toString());
-        return directory.listFiles();
-    }
+
 
     public void updateList(){
         File directory = new File(mContext.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).toString());
         images = directory.listFiles();
+        activeFilter = false;
     }
 
     public void setImages(File[] filteredList){
         images = filteredList;
+        activeFilter = true;
     }
 
     public File[] getImages(){
@@ -75,9 +71,13 @@ public class ImageAdapter extends BaseAdapter {
         int orientation;
 
         if(position < images.length){
-            Bitmap myBitmap = BitmapFactory.decodeFile(images[position].getAbsolutePath());
-            Matrix m = new Matrix();
+            Bitmap original = BitmapFactory.decodeFile(images[position].getAbsolutePath());
+            Bitmap myBitmap = Bitmap.createScaledBitmap (original, 200, 200, true);
+            if (original != myBitmap)
+                original.recycle();
+            original = null;
 
+            Matrix m = new Matrix();
             try {
                 ExifInterface exif = new ExifInterface(getPath (position));
 
@@ -105,6 +105,8 @@ public class ImageAdapter extends BaseAdapter {
                 e.printStackTrace();
             }
             imageView.setImageBitmap(Bitmap.createBitmap (myBitmap, 0, 0, myBitmap.getWidth (), myBitmap.getHeight (), m, true));
+            myBitmap.recycle ();
+            myBitmap = null;
         }
         return imageView;
     }
