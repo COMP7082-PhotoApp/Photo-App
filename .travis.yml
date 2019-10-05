@@ -32,9 +32,9 @@ android:
     #- sys-img-x86-android-22
     - sys-img-armeabi-v7a-google_apis-22
 before_install:
- - chmod +x gradlew
+  - chmod +x gradlew
   - yes | sdkmanager "platforms;android-22"
-  #- yes | sdkmanager "platforms;android-28"
+  - yes | sdkmanager "platforms;android-28"
 after_script:
   - echo no | android create avd --force -n test -t "android-22" --abi $ANDROID_ABI --tag $ANDROID_TAG
   - emulator -avd test -no-window &
