@@ -13,6 +13,8 @@ import android.widget.GridView;
 import android.widget.ImageView;
 
 import java.io.File;
+import java.util.List;
+import java.util.ArrayList;
 import java.io.IOException;
 
 public class ImageAdapter extends BaseAdapter {
@@ -25,8 +27,6 @@ public class ImageAdapter extends BaseAdapter {
         updateList ();
         activeFilter = false;
     }
-
-
 
     public void updateList(){
         File directory = new File(mContext.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).toString());
