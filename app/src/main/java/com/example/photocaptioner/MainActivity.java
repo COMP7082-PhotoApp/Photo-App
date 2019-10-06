@@ -36,8 +36,10 @@ public class MainActivity extends AppCompatActivity {
     public String selectedPhoto;
     public View selectedPhotoView;
     public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
+    public static final int FILTER_REQUEST = 0;
+    public static final int FILTER_APPLIED = 1;
+    public static final int FILTER_CLEARED = -1;
     public ImageAdapter iAdapter;
-    public Filter iFilter;
     public boolean activeFilter;
 
     @Override
@@ -47,8 +49,6 @@ public class MainActivity extends AppCompatActivity {
         activeFilter = false;
 
         checkPermission();
-
-        iFilter = new Filter();
 
         /** Creates a gridview and adapter to handle the images for the gridview.
          * The adapter creation and methods are handled by ImageAdapter.
@@ -103,15 +103,6 @@ public class MainActivity extends AppCompatActivity {
                 iAdapter.notifyDataSetChanged();
             }
         });
-
-        Button filterButton = (Button) findViewById(R.id.btnFilter);
-        filterButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                EditText searchText = findViewById(R.id.searchView);
-                filterPhotos(view, searchText.getText().toString());
-            }
-        });
     }
 
     @Override
@@ -123,12 +114,22 @@ public class MainActivity extends AppCompatActivity {
         iAdapter.notifyDataSetChanged();
     }
 
-    /** function for Filter button */
-    public void filterPhotos(View view, String path) {
-        File[] images = iAdapter.getImages();
-        iFilter.filterImages(images, path);
-        iAdapter.notifyDataSetChanged();
-        iAdapter.updateList();
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == FILTER_REQUEST){
+            if(resultCode == FILTER_APPLIED){
+                activeFilter = true;
+                Bundle b = data.getBundleExtra("file bundle");
+                File[] filteredList = (File[])b.getSerializable("filtered list");
+                iAdapter.setImages(filteredList);
+                iAdapter.notifyDataSetChanged();
+            } else if(resultCode == FILTER_CLEARED){
+                activeFilter = false;
+                iAdapter.updateList();
+                iAdapter.notifyDataSetChanged();
+            }
+        }
     }
 
     /** function for Caption button */
@@ -155,9 +156,11 @@ public class MainActivity extends AppCompatActivity {
 
     /** function for Filter button */
     public void openFilterActivity(View v){
-        System.out.println("Made it inside openFilterActivity");
         Intent intent = new Intent(this, SearchActivity.class);
-        startActivity(intent);
+        Bundle b = new Bundle();
+        b.putSerializable("file list", iAdapter.getImages());
+        intent.putExtra("file bundle", b);
+        startActivityForResult(intent, FILTER_REQUEST);
     }
 
     /** function for dialog of alert */
