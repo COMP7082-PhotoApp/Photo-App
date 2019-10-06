@@ -6,4 +6,12 @@
     <string name="cancel_button">Cancel</string>
     <string name="cap_button">Caption</string>
     <string name="filter_button">Filter</string>
+    <string name="caption_filter_txt">Caption:</string>
+    <string name="date_from_txt">Date From:</string>
+    <string name="date_to_txt">Date To:</string>
+    <string name="gps_lat_txt">Latitude:</string>
+    <string name="gps_long_txt">Longitude:</string>
+    <string name="filter_apply_button">Filter</string>
+    <string name="filter_clear_button">Clear</string>
+    <string name="filter_cancel_button">Cancel</string>
 </resources>
