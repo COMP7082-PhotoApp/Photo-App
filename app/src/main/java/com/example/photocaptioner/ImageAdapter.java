@@ -28,15 +28,11 @@ public class ImageAdapter extends BaseAdapter {
         activeFilter = false;
     }
 
-
-
     public void updateList(){
         File directory = new File(mContext.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).toString());
         images = directory.listFiles();
         activeFilter = false;
     }
-
-
 
     public void setImages(File[] filteredList){
         images = filteredList;
