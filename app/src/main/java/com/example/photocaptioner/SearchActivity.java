@@ -2,6 +2,7 @@ package com.example.photocaptioner;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+<<<<<<< HEAD
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -24,11 +25,18 @@ public class SearchActivity extends AppCompatActivity {
     Bundle b;
     public static final int FILTER_APPLIED = 1; //resultCode for applying a filter
     public static final int FILTER_CLEARED = -1;  //resultCode for clearing a filter
+=======
+import android.os.Bundle;
+import android.view.View;
+
+public class SearchActivity extends AppCompatActivity {
+>>>>>>> 607974c2bad54c8f8dfaf929423c8dcd71447231
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+<<<<<<< HEAD
 
         // Grab file list from Intent
         intent = getIntent();
@@ -113,10 +121,16 @@ public class SearchActivity extends AppCompatActivity {
 
         edit = findViewById(R.id.gps_long_input);
         edit.setText(gpsLongText);
+=======
+>>>>>>> 607974c2bad54c8f8dfaf929423c8dcd71447231
     }
 
     /** function for cancel button, to stop caption activity */
     public void cancel(View view){
+<<<<<<< HEAD
         finish();
+=======
+        this.finish();
+>>>>>>> 607974c2bad54c8f8dfaf929423c8dcd71447231
     }
 }

@@ -6,6 +6,7 @@
     <string name="cancel_button">Cancel</string>
     <string name="cap_button">Caption</string>
     <string name="filter_button">Filter</string>
+<<<<<<< HEAD
     <string name="caption_filter_txt">Caption:</string>
     <string name="date_from_txt">Date From:</string>
     <string name="date_to_txt">Date To:</string>
@@ -14,4 +15,6 @@
     <string name="filter_apply_button">Filter</string>
     <string name="filter_clear_button">Clear</string>
     <string name="filter_cancel_button">Cancel</string>
+=======
+>>>>>>> 607974c2bad54c8f8dfaf929423c8dcd71447231
 </resources>

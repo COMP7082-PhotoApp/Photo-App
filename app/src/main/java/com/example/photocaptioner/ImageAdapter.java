@@ -13,8 +13,11 @@ import android.widget.GridView;
 import android.widget.ImageView;
 
 import java.io.File;
+<<<<<<< HEAD
 import java.util.List;
 import java.util.ArrayList;
+=======
+>>>>>>> 607974c2bad54c8f8dfaf929423c8dcd71447231
 import java.io.IOException;
 
 public class ImageAdapter extends BaseAdapter {
@@ -28,6 +31,11 @@ public class ImageAdapter extends BaseAdapter {
         activeFilter = false;
     }
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 607974c2bad54c8f8dfaf929423c8dcd71447231
     public void updateList(){
         File directory = new File(mContext.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).toString());
         images = directory.listFiles();

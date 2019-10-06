@@ -20,12 +20,18 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+<<<<<<< HEAD
 import android.widget.EditText;
+=======
+>>>>>>> 607974c2bad54c8f8dfaf929423c8dcd71447231
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+<<<<<<< HEAD
 import FilterImages.Filter;
+=======
+>>>>>>> 607974c2bad54c8f8dfaf929423c8dcd71447231
 
 import java.io.File;
 import java.io.IOException;
@@ -36,9 +42,12 @@ public class MainActivity extends AppCompatActivity {
     public String selectedPhoto;
     public View selectedPhotoView;
     public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
+<<<<<<< HEAD
     public static final int FILTER_REQUEST = 0;
     public static final int FILTER_APPLIED = 1;
     public static final int FILTER_CLEARED = -1;
+=======
+>>>>>>> 607974c2bad54c8f8dfaf929423c8dcd71447231
     public ImageAdapter iAdapter;
     public boolean activeFilter;
 
@@ -114,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
         iAdapter.notifyDataSetChanged();
     }
 
+<<<<<<< HEAD
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
@@ -132,6 +142,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+=======
+>>>>>>> 607974c2bad54c8f8dfaf929423c8dcd71447231
     /** function for Caption button */
     public void editCaption(View view, String path) {
         Intent intent = new Intent(this, CaptionActivity.class);
@@ -156,11 +168,17 @@ public class MainActivity extends AppCompatActivity {
 
     /** function for Filter button */
     public void openFilterActivity(View v){
+<<<<<<< HEAD
         Intent intent = new Intent(this, SearchActivity.class);
         Bundle b = new Bundle();
         b.putSerializable("file list", iAdapter.getImages());
         intent.putExtra("file bundle", b);
         startActivityForResult(intent, FILTER_REQUEST);
+=======
+        System.out.println("Made it inside openFilterActivity");
+        Intent intent = new Intent(this, SearchActivity.class);
+        startActivity(intent);
+>>>>>>> 607974c2bad54c8f8dfaf929423c8dcd71447231
     }
 
     /** function for dialog of alert */
