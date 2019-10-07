@@ -13,34 +13,30 @@ import android.widget.GridView;
 import android.widget.ImageView;
 
 import java.io.File;
+import java.util.List;
+import java.util.ArrayList;
 import java.io.IOException;
 
 public class ImageAdapter extends BaseAdapter {
     private Context mContext;
+    private boolean activeFilter;
     public File[] images;
 
     public ImageAdapter(Context c) {
         mContext = c;
-        images = updateImageList();
-    }
-
-    /**
-     * Updates the array of image file paths from the app's downloads folder.
-     *
-     * @return returns an array of file paths;
-     */
-    public File[] updateImageList() {
-        File directory = new File(mContext.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).toString());
-        return directory.listFiles();
+        updateList ();
+        activeFilter = false;
     }
 
     public void updateList(){
         File directory = new File(mContext.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).toString());
         images = directory.listFiles();
+        activeFilter = false;
     }
 
     public void setImages(File[] filteredList){
         images = filteredList;
+        activeFilter = true;
     }
 
     public File[] getImages(){
@@ -75,14 +71,16 @@ public class ImageAdapter extends BaseAdapter {
         int orientation;
 
         if(position < images.length){
-            Bitmap myBitmap = BitmapFactory.decodeFile(images[position].getAbsolutePath());
-            Matrix m = new Matrix();
+            Bitmap original = BitmapFactory.decodeFile(images[position].getAbsolutePath());
+            Bitmap myBitmap = Bitmap.createScaledBitmap (original, 200, 200, true);
+            if (original != myBitmap)
+                original.recycle();
+            original = null;
 
+            Matrix m = new Matrix();
             try {
                 ExifInterface exif = new ExifInterface(getPath (position));
-
                 orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 1);
-                System.out.println ("Orientation code: " + orientation);
 
                 switch (orientation){
                     case ExifInterface.ORIENTATION_NORMAL:
@@ -105,6 +103,8 @@ public class ImageAdapter extends BaseAdapter {
                 e.printStackTrace();
             }
             imageView.setImageBitmap(Bitmap.createBitmap (myBitmap, 0, 0, myBitmap.getWidth (), myBitmap.getHeight (), m, true));
+            myBitmap.recycle ();
+            myBitmap = null;
         }
         return imageView;
     }

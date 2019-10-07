@@ -21,10 +21,12 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import FilterImages.Filter;
 
 import java.io.File;
 import java.io.IOException;
@@ -35,6 +37,9 @@ public class MainActivity extends AppCompatActivity {
     public String selectedPhoto;
     public View selectedPhotoView;
     public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
+    public static final int FILTER_REQUEST = 0;
+    public static final int FILTER_APPLIED = 1;
+    public static final int FILTER_CLEARED = -1;
     public ImageAdapter iAdapter;
     public boolean activeFilter;
 
@@ -83,6 +88,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        Button filterButton = (Button) findViewById(R.id.btnFilter);
+        filterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openFilterActivity(view);
+            }
+        });
+
         Button addButton = (Button) findViewById(R.id.btnPicture);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,6 +113,24 @@ public class MainActivity extends AppCompatActivity {
             iAdapter.updateList();
         }
         iAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == FILTER_REQUEST){
+            if(resultCode == FILTER_APPLIED){
+                activeFilter = true;
+                Bundle b = data.getBundleExtra("file bundle");
+                File[] filteredList = (File[])b.getSerializable("filtered list");
+                iAdapter.setImages(filteredList);
+                iAdapter.notifyDataSetChanged();
+            } else if(resultCode == FILTER_CLEARED){
+                activeFilter = false;
+                iAdapter.updateList();
+                iAdapter.notifyDataSetChanged();
+            }
+        }
     }
 
     /** function for Caption button */
@@ -130,7 +161,10 @@ public class MainActivity extends AppCompatActivity {
     /** function for Filter button */
     public void openFilterActivity(View v){
         Intent intent = new Intent(this, SearchActivity.class);
-        startActivity(intent);
+        Bundle b = new Bundle();
+        b.putSerializable("file list", iAdapter.getImages());
+        intent.putExtra("file bundle", b);
+        startActivityForResult(intent, FILTER_REQUEST);
     }
 
     /** function for dialog of alert */
