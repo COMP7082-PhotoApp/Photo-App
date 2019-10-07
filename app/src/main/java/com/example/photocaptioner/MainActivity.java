@@ -43,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
     public ImageAdapter iAdapter;
     public boolean activeFilter;
 
+    AlertDialog.Builder dialogSetup;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,12 +65,34 @@ public class MainActivity extends AppCompatActivity {
                 selectedPhoto =  iAdapter.getPath(position);
                 selectedPhotoView = v;
                 try {
+                    // Show Toast
                     ExifInterface e = new ExifInterface(selectedPhoto);
                     Toast toast = Toast.makeText(MainActivity.this, "CAPTION: " + e.getAttribute(ExifInterface.TAG_IMAGE_DESCRIPTION) +
                             "\n DATE: " + e.getAttribute(ExifInterface.TAG_DATETIME), Toast.LENGTH_LONG);
                     TextView textView = (TextView) toast.getView().findViewById(android.R.id.message);
                     textView.setTextColor(Color.RED);
                     toast.show();
+
+                    // Show alert box
+                    AlertDialog pictureAlert = dialogSetup.create();
+
+                    // Create image view
+                    ImageView selectedPictureView = new ImageView(MainActivity.this);
+
+                    // Based off caption activity (set bitmap in image view from selectedPhoto path)
+                    ExifInterface exif = new ExifInterface(selectedPhoto);
+                    Bitmap myBitmap = BitmapFactory.decodeFile(selectedPhoto);
+                    selectedPictureView.setImageBitmap(myBitmap);
+
+                    // Set title of alert box
+                    pictureAlert.setTitle("Selected Photo");
+
+                    // Adds image view to alert box
+                    pictureAlert.setView(selectedPictureView);
+
+                    // Show the alert bow with the picture
+                    pictureAlert.show();
+
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
@@ -104,6 +128,9 @@ public class MainActivity extends AppCompatActivity {
                 iAdapter.notifyDataSetChanged();
             }
         });
+
+        dialogSetup = new AlertDialog.Builder(MainActivity.this);
+
     }
 
     @Override
