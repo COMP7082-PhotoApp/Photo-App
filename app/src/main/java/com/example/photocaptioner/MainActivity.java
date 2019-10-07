@@ -42,8 +42,7 @@ public class MainActivity extends AppCompatActivity {
     public static final int FILTER_CLEARED = -1;
     public ImageAdapter iAdapter;
     public boolean activeFilter;
-
-    AlertDialog.Builder dialogSetup;
+    public AlertDialog.Builder dialogSetup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,13 +72,14 @@ public class MainActivity extends AppCompatActivity {
                     textView.setTextColor(Color.RED);
                     toast.show();
 
-                    // Show alert box
+                    // Create alert box
                     AlertDialog pictureAlert = dialogSetup.create();
 
                     // Create image view
                     ImageView selectedPictureView = new ImageView(MainActivity.this);
 
-                    // Based off caption activity (set bitmap in image view from selectedPhoto path)
+                    // Adapted from caption activity
+                    // (set bitmap in image view from selectedPhoto path)
                     ExifInterface exif = new ExifInterface(selectedPhoto);
                     Bitmap myBitmap = BitmapFactory.decodeFile(selectedPhoto);
                     selectedPictureView.setImageBitmap(myBitmap);
