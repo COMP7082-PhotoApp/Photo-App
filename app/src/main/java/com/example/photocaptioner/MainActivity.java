@@ -15,9 +15,11 @@ import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Debug;
 import android.os.Environment;
 import android.os.StrictMode;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -36,6 +38,8 @@ import java.util.Date;
 public class MainActivity extends AppCompatActivity {
     public String selectedPhoto;
     public View selectedPhotoView;
+    public View previousPhotoView;
+    public int previousPosition = -1;
     public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
     public static final int FILTER_REQUEST = 0;
     public static final int FILTER_APPLIED = 1;
@@ -59,10 +63,25 @@ public class MainActivity extends AppCompatActivity {
         GridView gv = (GridView) findViewById(R.id.gridView);
          iAdapter = new ImageAdapter(this);
         gv.setAdapter(iAdapter);
+
         gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 selectedPhoto =  iAdapter.getPath(position);
                 selectedPhotoView = v;
+
+                // If a previous image was selected, make it appear normal again
+                if (previousPhotoView != null){
+                    previousPhotoView.setAlpha(1.0f);
+                }
+
+                // Make selected image appear semi-transparent to indicate user's choice
+                selectedPhotoView.setAlpha(0.5f);
+
+                // Store previousPhotoView variable to keep track of previous photo selected
+                previousPhotoView = selectedPhotoView;
+                //  Store previousPosition variable to keep track of previous photo selected
+                previousPosition = position;
+
                 try {
                     // Show Toast
                     ExifInterface e = new ExifInterface(selectedPhoto);
@@ -140,6 +159,14 @@ public class MainActivity extends AppCompatActivity {
             iAdapter.updateList();
         }
         iAdapter.notifyDataSetChanged();
+
+        // If a photo is already selected, set it to appear semi-transparent
+        // WIP: This won't change the transparency of selectedPhotoView for some reason
+        if (previousPosition != -1){
+            selectedPhotoView = iAdapter.getView(previousPosition, null,  null);
+            selectedPhotoView.setAlpha(0.5f);
+        }
+
     }
 
     @Override
