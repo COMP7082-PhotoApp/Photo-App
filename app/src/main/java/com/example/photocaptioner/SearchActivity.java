@@ -28,8 +28,6 @@ public class SearchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
-
-
         // Grab file list from Intent
         intent = getIntent();
         b = intent.getBundleExtra("file bundle");
@@ -113,7 +111,6 @@ public class SearchActivity extends AppCompatActivity {
 
         edit = findViewById(R.id.gps_long_input);
         edit.setText(gpsLongText);
-
     }
 
     /** function for cancel button, to stop caption activity */

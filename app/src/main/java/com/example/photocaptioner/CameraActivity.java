@@ -110,7 +110,7 @@ public class CameraActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_CANCELED){
-            boolean delete = newPhoto.delete ();
+            boolean delete = newPhoto.delete();
         }
     }
 

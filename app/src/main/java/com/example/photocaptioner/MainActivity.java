@@ -7,16 +7,17 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.ExifInterface;
-
 import android.os.Bundle;
-
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-
+import android.os.Build;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,7 +27,10 @@ import java.io.IOException;
 public class MainActivity extends AppCompatActivity {
     public String selectedPhoto;
     public View selectedPhotoView;
+    public View previousPhotoView;
+    public int previousPosition = -1;
     public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
+
 
     public static final int FILTER_REQUEST = 0;
     public static final int FILTER_APPLIED = 1;
@@ -34,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
     public ImageAdapter iAdapter;
     public boolean activeFilter;
+    public AlertDialog.Builder dialogSetup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,17 +55,54 @@ public class MainActivity extends AppCompatActivity {
         GridView gv = (GridView) findViewById(R.id.gridView);
          iAdapter = new ImageAdapter(this);
         gv.setAdapter(iAdapter);
+
         gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 selectedPhoto =  iAdapter.getPath(position);
                 selectedPhotoView = v;
+
+                // If a previous image was selected, make it appear normal again
+                if (previousPhotoView != null){
+                    previousPhotoView.setAlpha(1.0f);
+                }
+
+                // Make selected image appear semi-transparent to indicate user's choice
+                selectedPhotoView.setAlpha(0.5f);
+
+                // Store previousPhotoView variable to keep track of previous photo selected
+                previousPhotoView = selectedPhotoView;
+                //  Store previousPosition variable to keep track of previous photo selected
+                previousPosition = position;
+
                 try {
+                    // Show Toast
                     ExifInterface e = new ExifInterface(selectedPhoto);
                     Toast toast = Toast.makeText(MainActivity.this, "CAPTION: " + e.getAttribute(ExifInterface.TAG_IMAGE_DESCRIPTION) +
                             "\n DATE: " + e.getAttribute(ExifInterface.TAG_DATETIME), Toast.LENGTH_LONG);
                     TextView textView = (TextView) toast.getView().findViewById(android.R.id.message);
                     textView.setTextColor(Color.RED);
                     toast.show();
+
+                    // Create alert box
+                    AlertDialog pictureAlert = dialogSetup.create();
+
+                    // Create image view
+                    ImageView selectedPictureView = new ImageView(MainActivity.this);
+                    // Adapted from caption activity
+                    // (set bitmap in image view from selectedPhoto path)
+                    ExifInterface exif = new ExifInterface(selectedPhoto);
+                    Bitmap myBitmap = BitmapFactory.decodeFile(selectedPhoto);
+                    selectedPictureView.setImageBitmap(myBitmap);
+
+                    // Set title of alert box
+                    pictureAlert.setTitle("Selected Photo");
+
+                    // Adds image view to alert box
+                    pictureAlert.setView(selectedPictureView);
+
+                    // Show the alert bow with the picture
+                    pictureAlert.show();
+
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
@@ -96,6 +138,9 @@ public class MainActivity extends AppCompatActivity {
                 iAdapter.notifyDataSetChanged();
             }
         });
+
+        dialogSetup = new AlertDialog.Builder(MainActivity.this);
+
     }
 
     @Override
@@ -105,8 +150,15 @@ public class MainActivity extends AppCompatActivity {
             iAdapter.updateList();
         }
         iAdapter.notifyDataSetChanged();
-    }
 
+        // If a photo is already selected, set it to appear semi-transparent
+        // WIP: This won't change the transparency of selectedPhotoView for some reason
+        if (previousPosition != -1){
+            selectedPhotoView = iAdapter.getView(previousPosition, null,  null);
+            selectedPhotoView.setAlpha(0.5f);
+        }
+
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
@@ -137,7 +189,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void checkPermission(){
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+            // temporary fix to prevent crash if current Android version lower than required SDK
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+            }
         }
     }
 
@@ -150,13 +205,11 @@ public class MainActivity extends AppCompatActivity {
 
     /** function for Filter button */
     public void openFilterActivity(View v){
-
         Intent intent = new Intent(this, SearchActivity.class);
         Bundle b = new Bundle();
         b.putSerializable("file list", iAdapter.getImages());
         intent.putExtra("file bundle", b);
         startActivityForResult(intent, FILTER_REQUEST);
-
     }
 
     /** function for dialog of alert */

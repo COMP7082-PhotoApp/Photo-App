@@ -5,30 +5,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     tools:context=".MainActivity">
-
     <GridView
         android:id="@+id/gridView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-<<<<<<< HEAD
         android:layout_weight="10"
-=======
->>>>>>> 607974c2bad54c8f8dfaf929423c8dcd71447231
         android:columnWidth="110dp"
         android:gravity="center"
         android:horizontalSpacing="10dp"
         android:numColumns="auto_fit"
         android:stretchMode="columnWidth"
-<<<<<<< HEAD
         android:verticalSpacing="10dp" >
     </GridView>
-=======
-        android:verticalSpacing="10dp"
-        android:layout_weight="10"/>
->>>>>>> 607974c2bad54c8f8dfaf929423c8dcd71447231
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
