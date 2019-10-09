@@ -36,13 +36,14 @@
             android:layout_weight="1"
             android:onClick="openCameraScreen"
             android:text="@string/photo_button" />
+
         <Button
-            android:id="@+id/btnPicture"
+            android:id="@+id/btnSettings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:text="@string/picture_button"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:text="@string/settings_button" />
         <Button
             android:id="@+id/btnFilter"
             android:layout_width="wrap_content"

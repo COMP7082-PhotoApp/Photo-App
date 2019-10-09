@@ -1,7 +1,7 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Photo Captioner</string>
     <string name="photo_button">Take a Photo</string>
-    <string name="picture_button">Add Photo</string>
+    <string name="settings_button">Settings</string>
     <string name="save_button">Save</string>
     <string name="cancel_button">Cancel</string>
     <string name="cap_button">Caption</string>
@@ -14,4 +14,6 @@
     <string name="filter_apply_button">Filter</string>
     <string name="filter_clear_button">Clear</string>
     <string name="filter_cancel_button">Cancel</string>
+    <string name="com.twitter.sdk.android.CONSUMER_KEY" tools:ignore="ExtraTranslation">IZZM6KQUJkqThv1p9FiEVCcn7</string>
+    <string name="com.twitter.sdk.android.CONSUMER_SECRET" tools:ignore="ExtraTranslation">Zvqs36J9Ba3AzVsJeuwX1ak783bvi39mlvzalaCUEXdrclB0qf</string>
 </resources>

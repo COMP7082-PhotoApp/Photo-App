@@ -7,33 +7,24 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.ExifInterface;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Debug;
-import android.os.Environment;
-import android.os.StrictMode;
-import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import FilterImages.Filter;
+
+import com.twitter.sdk.android.core.Twitter;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
     public String selectedPhoto;
@@ -53,6 +44,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         activeFilter = false;
+
+        //Initialize Twitter instance
+        Twitter.initialize(this);
 
         checkPermission();
 
@@ -139,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button addButton = (Button) findViewById(R.id.btnPicture);
+        Button addButton = (Button) findViewById(R.id.btnSettings);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
