@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Filterable;
 
 import java.io.File;
 
@@ -29,7 +28,6 @@ public class SearchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
-
         // Grab file list from Intent
         intent = getIntent();
         b = intent.getBundleExtra("file bundle");

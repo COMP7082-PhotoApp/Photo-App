@@ -7,33 +7,22 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.ExifInterface;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Debug;
-import android.os.Environment;
-import android.os.StrictMode;
-import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.EditText;
+import android.os.Build;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import FilterImages.Filter;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
     public String selectedPhoto;
@@ -41,9 +30,12 @@ public class MainActivity extends AppCompatActivity {
     public View previousPhotoView;
     public int previousPosition = -1;
     public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
+
+
     public static final int FILTER_REQUEST = 0;
     public static final int FILTER_APPLIED = 1;
     public static final int FILTER_CLEARED = -1;
+
     public ImageAdapter iAdapter;
     public boolean activeFilter;
     public AlertDialog.Builder dialogSetup;
@@ -96,7 +88,6 @@ public class MainActivity extends AppCompatActivity {
 
                     // Create image view
                     ImageView selectedPictureView = new ImageView(MainActivity.this);
-
                     // Adapted from caption activity
                     // (set bitmap in image view from selectedPhoto path)
                     ExifInterface exif = new ExifInterface(selectedPhoto);
