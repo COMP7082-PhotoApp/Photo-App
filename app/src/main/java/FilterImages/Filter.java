@@ -30,9 +30,13 @@ public class Filter {
                 }
                 // Checks to see if caption is empty and if filterByCaption returns false.
                 // If this condition is met, iterate to the next pass of the loop.
-                if(caption != null && !caption.isEmpty() && !caption.equals("null")){
-                    captions = caption.split(" "); // split the caption into words using space char as delimiter
-                    if (!filterByCaption(captions, searchWord)){
+                if(searchWord != null && !searchWord.isEmpty() && !searchWord.equals("null")){
+                    if(caption != null && !caption.isEmpty() && !caption.equals("null")){
+                        captions = caption.split(" "); // split the caption into words using space char as delimiter
+                        if (!filterByCaption(captions, searchWord)){
+                            continue;
+                        }
+                    } else{
                         continue;
                     }
                 }
@@ -61,12 +65,12 @@ public class Filter {
         if(inputDate != null && !inputDate.isEmpty() && !inputDate.equals("null")){
             // Grab only the date portion of the date/time data
             dateText = inputDate.split(" ")[0];
+            System.out.println ("Input date:  " + dateText);
         } else{
             // Grab today's date
             Date today = Calendar.getInstance().getTime();
             dateText = sdf.format(today);
         }
-
         try {
             // Creates a date object for the date data from the image
             date = sdf.parse(dateText);
@@ -75,13 +79,13 @@ public class Filter {
             if(startDate != null && !startDate.isEmpty() && !startDate.equals("null")){
                 fromDate = lazyFormat.parse(startDate);
             } else{
-                fromDate = lazyFormat.parse("09000101");
+                fromDate = lazyFormat.parse("0900-01-01");
             }
 
             if(endDate != null && !endDate.isEmpty() && !endDate.equals("null")){
                 toDate = lazyFormat.parse(endDate);
             } else{
-                toDate = lazyFormat.parse("99990101");
+                toDate = lazyFormat.parse("9999-01-01");
             }
 
             // Filters for date
