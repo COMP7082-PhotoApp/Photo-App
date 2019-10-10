@@ -18,11 +18,20 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static org.hamcrest.Matchers.anything;
+import static org.junit.Assert.assertEquals;
 
 @RunWith(AndroidJUnit4.class)
 public class PhotoCaptionerEspressoTest {
     @Rule
     public ActivityTestRule<MainActivity> activityRule = new ActivityTestRule<>(MainActivity.class);
+
+
+    /** A basic test to verify if testing environment is operating properly. */
+    @Test
+    public void exampleTest() {
+        assertEquals(7, 3 + 4);
+    }
+
 
     @Test
     public void ensureCaptionCreatingOrEditing() throws InterruptedException {
