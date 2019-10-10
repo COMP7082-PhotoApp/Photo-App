@@ -25,6 +25,7 @@ import com.twitter.sdk.android.core.Twitter;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
     public String selectedPhoto;
@@ -86,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
                     toast.show();
 
                     // Create alert box
-                    AlertDialog pictureAlert = dialogSetup.create();
+                    final AlertDialog pictureAlert = dialogSetup.create();
 
                     // Create image view
                     ImageView selectedPictureView = new ImageView(MainActivity.this);
@@ -103,8 +104,23 @@ public class MainActivity extends AppCompatActivity {
                     // Adds image view to alert box
                     pictureAlert.setView(selectedPictureView);
 
-                    // Show the alert bow with the picture
+                    // Define onClick listener to dismiss alert when tapping image
+                    selectedPictureView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            pictureAlert.dismiss();
+                        }
+                    });
+
+                    // Show the alert box with the picture
                     pictureAlert.show();
+
+                    // Retrieve screen dimensions for app's layout
+                    int screenWidth = getResources().getDisplayMetrics().widthPixels;
+                    int screenHeight = getResources().getDisplayMetrics().heightPixels;
+
+                    // Adjust size of alert box (80% wide and 60% tall)
+                    Objects.requireNonNull(pictureAlert.getWindow()).setLayout((int)(screenWidth * 0.8) , (int)(screenHeight * 0.6));
 
                 } catch (IOException ex) {
                     ex.printStackTrace();
