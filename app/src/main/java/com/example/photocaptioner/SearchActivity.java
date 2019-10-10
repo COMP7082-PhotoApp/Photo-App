@@ -1,15 +1,13 @@
 package com.example.photocaptioner;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-
 import java.io.File;
-
 import FilterImages.Filter;
 
 public class SearchActivity extends AppCompatActivity {
@@ -32,6 +30,24 @@ public class SearchActivity extends AppCompatActivity {
         intent = getIntent();
         b = intent.getBundleExtra("file bundle");
         imageList = (File[])b.getSerializable("file list");
+
+        //Calls Calendar Activities
+        Button btnSelectFrom = findViewById(R.id.btnDateFrom);
+        btnSelectFrom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SearchActivity.this, CalendarActivity.class);
+                startActivityForResult(intent, 1);
+            }
+        });
+        Button btnSelectTo = findViewById(R.id.btnDateTo);
+        btnSelectTo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SearchActivity.this, CalendarActivity.class);
+                startActivityForResult(intent, 2);
+            }
+        });
 
         // Calls filter function and passes in filter parameters.  Sets result to filter applied and finishes activity
         Button filterButton = (Button) findViewById(R.id.btnFilter);
@@ -111,6 +127,19 @@ public class SearchActivity extends AppCompatActivity {
 
         edit = findViewById(R.id.gps_long_input);
         edit.setText(gpsLongText);
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == 1) {
+            String strEditText = data.getStringExtra("selectDate");
+            if (requestCode == 1) {
+                Log.d("Show Date in searchView", requestCode + " is " + strEditText);
+                dateFromText = strEditText;
+            } else if(requestCode == 2){
+                dateToText = strEditText;
+            }
+        }
     }
 
     /** function for cancel button, to stop caption activity */
