@@ -2,14 +2,17 @@ package com.example.photocaptioner;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.core.widget.ImageViewCompat;
 
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.media.ExifInterface;
 import android.os.Build;
 import android.os.Bundle;
@@ -29,8 +32,8 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
     public String selectedPhoto;
-    public View selectedPhotoView;
-    public View previousPhotoView;
+    public ImageView selectedPhotoView;
+    public ImageView previousPhotoView;
     public int previousPosition = -1;
     public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
     public static final int FILTER_REQUEST = 0;
@@ -62,15 +65,22 @@ public class MainActivity extends AppCompatActivity {
         gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 selectedPhoto =  iAdapter.getPath(position);
-                selectedPhotoView = v;
+                selectedPhotoView = (ImageView) v;
 
                 // If a previous image was selected, make it appear normal again
                 if (previousPhotoView != null){
                     previousPhotoView.setAlpha(1.0f);
+                    previousPhotoView.clearColorFilter();
                 }
 
                 // Make selected image appear semi-transparent to indicate user's choice
                 selectedPhotoView.setAlpha(0.5f);
+
+                // Retrieves int color value from current primary color of the app's layout
+                int highlightColor = ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary);
+
+                // Make selected image appear tinted in color
+                selectedPhotoView.setColorFilter(highlightColor, PorterDuff.Mode.SCREEN);
 
                 // Store previousPhotoView variable to keep track of previous photo selected
                 previousPhotoView = selectedPhotoView;
@@ -173,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
         // If a photo is already selected, set it to appear semi-transparent
         // WIP: This won't change the transparency of selectedPhotoView for some reason
         if (previousPosition != -1){
-            selectedPhotoView = iAdapter.getView(previousPosition, null,  null);
+            selectedPhotoView = (ImageView) iAdapter.getView(previousPosition, null,  null);
             selectedPhotoView.setAlpha(0.5f);
         }
 
