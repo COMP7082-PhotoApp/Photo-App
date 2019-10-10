@@ -2,7 +2,6 @@ package com.example.photocaptioner;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -20,7 +19,6 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.io.File;
 import java.io.IOException;
 
@@ -140,7 +138,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         dialogSetup = new AlertDialog.Builder(MainActivity.this);
-
     }
 
     @Override
@@ -157,7 +154,6 @@ public class MainActivity extends AppCompatActivity {
             selectedPhotoView = iAdapter.getView(previousPosition, null,  null);
             selectedPhotoView.setAlpha(0.5f);
         }
-
     }
 
     @Override

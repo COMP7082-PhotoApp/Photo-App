@@ -16,24 +16,20 @@ import java.io.IOException;
 
 public class ImageAdapter extends BaseAdapter {
     private Context mContext;
-    private boolean activeFilter;
     public File[] images;
 
     public ImageAdapter(Context c) {
         mContext = c;
         updateList ();
-        activeFilter = false;
     }
 
     public void updateList(){
         File directory = new File(mContext.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).toString());
         images = directory.listFiles();
-        activeFilter = false;
     }
 
     public void setImages(File[] filteredList){
         images = filteredList;
-        activeFilter = true;
     }
 
     public File[] getImages(){

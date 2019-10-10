@@ -2,14 +2,12 @@ package com.example.photocaptioner;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
-
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -32,26 +30,19 @@ public class CameraActivity extends AppCompatActivity {
 
     /** onClick function for button to take Photo */
     public void takePhoto(View v) throws IOException {
-
         dispatchTakePictureIntent();
-
     }
 
     /** Creates files/Download if it does not exist, then creates jpg file for new photo */
     private File newImageFile() throws IOException{
 
         //Create file path to Download folder to check if it exists and later generate a URI
-
-        File localDirectory = getFilesDir();
         File downloadFolder = new File(getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).toString());
 
         //Create the Download folder if it does not exist
         if(!downloadFolder.exists()) {
             downloadFolder.mkdir();
         }
-
-
-        //Log.i("Message", "attempt to make new image file");
 
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
@@ -66,11 +57,7 @@ public class CameraActivity extends AppCompatActivity {
 
         // Save a file: path for use with ACTION_VIEW intents
         currentPhotoPath = image.getAbsolutePath();
-
-        //Log.i("Photo Path", currentPhotoPath);
-
         return image;
-
     }
 
     /** Launches Android's built-in camera activity */
@@ -99,19 +86,15 @@ public class CameraActivity extends AppCompatActivity {
 
                 // Starts the Android Camera activity
                 startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
-
             }
-
         }
-
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_CANCELED){
-            boolean delete = newPhoto.delete();
+            newPhoto.delete();
         }
     }
-
 }
