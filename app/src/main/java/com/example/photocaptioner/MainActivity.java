@@ -2,13 +2,10 @@ package com.example.photocaptioner;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.core.widget.ImageViewCompat;
-
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -23,9 +20,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.twitter.sdk.android.core.Twitter;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
@@ -36,9 +31,12 @@ public class MainActivity extends AppCompatActivity {
     public ImageView previousPhotoView;
     public int previousPosition = -1;
     public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
+
+
     public static final int FILTER_REQUEST = 0;
     public static final int FILTER_APPLIED = 1;
     public static final int FILTER_CLEARED = -1;
+
     public ImageAdapter iAdapter;
     public boolean activeFilter;
     public AlertDialog.Builder dialogSetup;
@@ -101,7 +99,6 @@ public class MainActivity extends AppCompatActivity {
 
                     // Create image view
                     ImageView selectedPictureView = new ImageView(MainActivity.this);
-
                     // Adapted from caption activity
                     // (set bitmap in image view from selectedPhoto path)
                     ExifInterface exif = new ExifInterface(selectedPhoto);
@@ -169,7 +166,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         dialogSetup = new AlertDialog.Builder(MainActivity.this);
-
     }
 
     @Override
@@ -186,7 +182,6 @@ public class MainActivity extends AppCompatActivity {
             selectedPhotoView = (ImageView) iAdapter.getView(previousPosition, null,  null);
             selectedPhotoView.setAlpha(0.5f);
         }
-
     }
 
     @Override

@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.photocaptioner">
-
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -17,6 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".SettingsActivity"></activity>
+        <activity android:name=".CalendarActivity"></activity>
         <activity android:name=".CaptionActivity" />
         <activity android:name=".CameraActivity" />
         <activity android:name=".SearchActivity" />
@@ -39,5 +37,4 @@
                 android:resource="@xml/file_paths" />
         </provider>
     </application>
-
 </manifest>

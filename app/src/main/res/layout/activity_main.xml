@@ -5,7 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     tools:context=".MainActivity">
-
     <GridView
         android:id="@+id/gridView"
         android:layout_width="match_parent"
@@ -20,7 +19,6 @@
         android:stretchMode="columnWidth"
         android:verticalSpacing="10dp" >
     </GridView>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"

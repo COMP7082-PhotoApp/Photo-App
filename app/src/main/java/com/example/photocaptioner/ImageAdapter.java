@@ -11,32 +11,26 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
-
 import java.io.File;
-import java.util.List;
-import java.util.ArrayList;
 import java.io.IOException;
+import java.util.Objects;
 
 public class ImageAdapter extends BaseAdapter {
     private Context mContext;
-    private boolean activeFilter;
     public File[] images;
 
     public ImageAdapter(Context c) {
         mContext = c;
         updateList ();
-        activeFilter = false;
     }
 
     public void updateList(){
-        File directory = new File(mContext.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).toString());
+        File directory = new File(Objects.requireNonNull(mContext.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)).toString());
         images = directory.listFiles();
-        activeFilter = false;
     }
 
     public void setImages(File[] filteredList){
         images = filteredList;
-        activeFilter = true;
     }
 
     public File[] getImages(){
@@ -97,8 +91,6 @@ public class ImageAdapter extends BaseAdapter {
                     default:
                         break;
                 }
-
-
             } catch (IOException e) {
                 e.printStackTrace();
             }

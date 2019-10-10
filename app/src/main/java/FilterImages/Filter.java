@@ -1,19 +1,7 @@
 package FilterImages;
 
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.media.ExifInterface;
-import android.os.Environment;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.GridView;
-import android.widget.ImageView;
-
 import java.io.File;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -35,66 +23,83 @@ public class Filter {
                 String dateTime = exif.getAttribute(ExifInterface.TAG_DATETIME);
                 String latitude = exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE);
                 String longitude = exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE);
-                String dateText;
                 String[] captions;
-                Date date;
-
-                // Set up date formats for exif data as well as input data
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy:MM:dd");
-                SimpleDateFormat lazyFormat = new SimpleDateFormat("yyyyMMdd");
-
-                // Checks for actual date/time data in the exif datetime tag
-                if(dateTime != null && !dateTime.isEmpty() && !dateTime.equals("null")){
-                    // Grab only the date portion of the date/time data
-                    dateText = dateTime.split(" ")[0];
-                } else{
-                    // Grab today's date
-                    Date today = Calendar.getInstance().getTime();
-                    dateText = sdf.format(today);
+                // Checks to see if filterByDate returns false.  If this condition is met, iterate to the next pass of the loop.
+                if(!filterByDate(dateTime, dateFrom, dateTo)){
+                    continue;
                 }
-
-                try {
-                    Date fromDate;
-                    Date toDate;
-                    // Creates a date object for the date data from the image
-                    date = sdf.parse(dateText);
-
-                    // Sets the from-date and to-date to input parameters, or sets to ridiculously far away dates if empty
-                    if(dateFrom != null && !dateFrom.isEmpty() && !dateFrom.equals("null")){
-                        fromDate = lazyFormat.parse(dateFrom);
-                    } else{
-                        fromDate = lazyFormat.parse("09000101");
+                // Checks to see if caption is empty and if filterByCaption returns false.
+                // If this condition is met, iterate to the next pass of the loop.
+                if(caption != null && !caption.isEmpty() && !caption.equals("null")){
+                    captions = caption.split(" "); // split the caption into words using space char as delimiter
+                    if (!filterByCaption(captions, searchWord)){
+                        continue;
                     }
-                    if(dateTo != null && !dateTo.isEmpty() && !dateTo.equals("null")){
-                        toDate = lazyFormat.parse(dateTo);
-                    } else{
-                        toDate = lazyFormat.parse("99990101");
-                    }
-
-                    // Filters for date
-                    if (date.after(fromDate) && date.before(toDate)){
-                        // Check if there is a caption parameter
-                        if(caption != null && !caption.isEmpty() && !caption.equals("null")){
-                            captions = caption.split(" "); // split the caption into words using space char as delimiter
-
-                            for(int j = 0; j < captions.length; j++){ // loop through each word of the caption and compare it with the search word
-                                if(captions[j].compareTo(searchWord) == 0){ // if we get a match add it to the filtered list
-                                    filteredList.add(images[i]);
-                                    break;
-                                }
-                            }
-                        } else{
-                            filteredList.add(images[i]);
-                        }
-                    }
-                } catch (ParseException e) {
-                    e.printStackTrace();
                 }
-            }catch(IOException e){
+                // Do a check for GPS coordinates below here and before adding to filteredList
+                filteredList.add(images[i]);
+            }
+            catch(IOException e){
                 e.printStackTrace();
             }
         }
         filteredImages = filteredList.toArray(new File[filteredList.size()]);
         return filteredImages;
+    }
+
+    public static boolean filterByDate(String inputDate, String startDate, String endDate){
+        Date date;
+        Date fromDate;
+        Date toDate;
+        String dateText;
+
+        // Set up date formats for exif data as well as input data
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy:MM:dd");
+        SimpleDateFormat lazyFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        // Checks for actual date/time data in the exif datetime tag
+        if(inputDate != null && !inputDate.isEmpty() && !inputDate.equals("null")){
+            // Grab only the date portion of the date/time data
+            dateText = inputDate.split(" ")[0];
+        } else{
+            // Grab today's date
+            Date today = Calendar.getInstance().getTime();
+            dateText = sdf.format(today);
+        }
+
+        try {
+            // Creates a date object for the date data from the image
+            date = sdf.parse(dateText);
+
+            // Sets the from-date and to-date to input parameters, or sets to ridiculously far away dates if empty
+            if(startDate != null && !startDate.isEmpty() && !startDate.equals("null")){
+                fromDate = lazyFormat.parse(startDate);
+            } else{
+                fromDate = lazyFormat.parse("09000101");
+            }
+
+            if(endDate != null && !endDate.isEmpty() && !endDate.equals("null")){
+                toDate = lazyFormat.parse(endDate);
+            } else{
+                toDate = lazyFormat.parse("99990101");
+            }
+
+            // Filters for date
+            if (date.after(fromDate) && date.before(toDate)){
+                return true;
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static boolean filterByCaption(String[] captions, String keyWord){
+        for(int j = 0; j < captions.length; j++){ // loop through each word of the caption and compare it with the search word
+            if(captions[j].compareTo(keyWord) == 0){ // if we get a match add it to the filtered list
+                return true;
+            }
+        }
+        return false;
     }
 }
