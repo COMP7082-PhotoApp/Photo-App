@@ -55,7 +55,7 @@ public class Filter {
 
         // Set up date formats for exif data as well as input data
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy:MM:dd");
-        SimpleDateFormat lazyFormat = new SimpleDateFormat("yyyyMMdd");
+        SimpleDateFormat lazyFormat = new SimpleDateFormat("yyyy-MM-dd");
 
         // Checks for actual date/time data in the exif datetime tag
         if(inputDate != null && !inputDate.isEmpty() && !inputDate.equals("null")){
