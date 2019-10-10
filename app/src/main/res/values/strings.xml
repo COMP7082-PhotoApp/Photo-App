@@ -14,4 +14,8 @@
     <string name="filter_apply_button">Filter</string>
     <string name="filter_clear_button">Clear</string>
     <string name="filter_cancel_button">Cancel</string>
+    <string name="select_button">Select</string>
+    <string name="year_hint">Year (YYYY)</string>
+    <string name="month_hint">Month (MM)</string>
+    <string name="day_button">Day (DD)</string>
 </resources>

@@ -26,8 +26,11 @@
                     android:layout_weight="1" />
                 <EditText
                     android:id="@+id/date_from_input"
-                    android:layout_weight="4"
-                    android:layout_span="2" />
+                    android:layout_weight="4" />
+                <Button
+                    android:id="@+id/btnDateFrom"
+                    android:text="@string/select_button"
+                    android:layout_weight="1" />
             </TableRow>
             <TableRow>
                 <TextView
@@ -35,8 +38,11 @@
                     android:layout_weight="1" />
                 <EditText
                     android:id="@+id/date_to_input"
-                    android:layout_weight="4"
-                    android:layout_span="2" />
+                    android:layout_weight="4" />
+                <Button
+                    android:id="@+id/btnDateTo"
+                    android:text="@string/select_button"
+                    android:layout_weight="1" />
             </TableRow>
             <TableRow>
                 <TextView
