@@ -22,15 +22,11 @@ public class CalendarActivity extends AppCompatActivity {
     private int year = 0;
     private int month = 0;
     private int day = 0;
-    private String viewName;
-    private String formattedDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar);
-
-        viewName = getIntent().getStringExtra(SearchActivity.EXTRA_MESSAGE);
 
         calendarView = findViewById(R.id.calendar);
         yearView = findViewById(R.id.year);
@@ -62,7 +58,12 @@ public class CalendarActivity extends AppCompatActivity {
         }else{
             calendarView.setDate(getTimeInMillisFromInts(year, month, day));
             Intent intent = new Intent();
-            intent.putExtra("selectDate", year + "-" + month + "-" + day);
+            if(month < 10){
+                intent.putExtra("selectDate", year + "-0" + month + "-" + day);
+            }else{
+                intent.putExtra("selectDate", year + "-" + month + "-" + day);
+            }
+
             setResult(1, intent);
             finish();
         }

@@ -24,7 +24,6 @@ public class SearchActivity extends AppCompatActivity {
     Bundle b;
     public static final int FILTER_APPLIED = 1; //resultCode for applying a filter
     public static final int FILTER_CLEARED = -1;  //resultCode for clearing a filter
-    public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +40,6 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(SearchActivity.this, CalendarActivity.class);
-                intent.putExtra(EXTRA_MESSAGE, "From");
                 startActivityForResult(intent, 1);
             }
         });
@@ -50,7 +48,6 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(SearchActivity.this, CalendarActivity.class);
-                intent.putExtra(EXTRA_MESSAGE, "To");
                 startActivityForResult(intent, 2);
             }
         });
