@@ -25,13 +25,11 @@ public class PhotoCaptionerEspressoTest {
     @Rule
     public ActivityTestRule<MainActivity> activityRule = new ActivityTestRule<>(MainActivity.class);
 
-
     /** A basic test to verify if testing environment is operating properly. */
     @Test
     public void exampleTest() {
         assertEquals(7, 3 + 4);
     }
-
 
     @Test
     public void ensureCaptionCreatingOrEditing() throws InterruptedException {
