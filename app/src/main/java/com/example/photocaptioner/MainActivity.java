@@ -148,6 +148,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        Button settingsButton = (Button) findViewById(R.id.btnSettings);
+        settingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openSettings(view);
+            }
+        });
+
         Button filterButton = (Button) findViewById(R.id.btnFilter);
         filterButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -211,7 +219,7 @@ public class MainActivity extends AppCompatActivity {
 
     /** function for Settings button */
     public void openSettings(View v) {
-        Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+        Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
     }
 
