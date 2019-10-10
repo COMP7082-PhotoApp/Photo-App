@@ -14,6 +14,6 @@
     <string name="filter_apply_button">Filter</string>
     <string name="filter_clear_button">Clear</string>
     <string name="filter_cancel_button">Cancel</string>
-    <string name="com.twitter.sdk.android.CONSUMER_KEY" tools:ignore="ExtraTranslation">IZZM6KQUJkqThv1p9FiEVCcn7</string>
-    <string name="com.twitter.sdk.android.CONSUMER_SECRET" tools:ignore="ExtraTranslation">Zvqs36J9Ba3AzVsJeuwX1ak783bvi39mlvzalaCUEXdrclB0qf</string>
+    <string name="com.twitter.sdk.android.CONSUMER_KEY" tools:ignore="ExtraTranslation">X</string>
+    <string name="com.twitter.sdk.android.CONSUMER_SECRET" tools:ignore="ExtraTranslation">X</string>
 </resources>
