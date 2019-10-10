@@ -43,12 +43,14 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_weight="1"
+            android:onClick="openSettings"
             android:text="@string/settings_button" />
         <Button
             android:id="@+id/btnFilter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:onClick="openFilterActivity"
             android:text="@string/filter_button"
             android:layout_weight="1"/>
         <Button
@@ -56,6 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:onClick="editCaption"
             android:text="@string/cap_button"
             android:layout_weight="1"/>
     </LinearLayout>

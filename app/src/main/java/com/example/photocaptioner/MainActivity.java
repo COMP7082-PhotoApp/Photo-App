@@ -188,6 +188,12 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /** function for Settings button */
+    public void openSettings(View v) {
+        Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+        startActivity(intent);
+    }
+
     /** function to ask permission of storage */
 
     public void checkPermission(){
