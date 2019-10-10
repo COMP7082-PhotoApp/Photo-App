@@ -25,18 +25,28 @@ public class PhotoCaptionerEspressoTest {
     public ActivityTestRule<MainActivity> activityRule = new ActivityTestRule<>(MainActivity.class);
 
     @Test
-    public void ensureCaptionCreatingOrEditing() {
+    public void ensureCaptionCreatingOrEditing() throws InterruptedException {
         //onView(withId(R.id.btnPhoto)).perform(click());
         //onView(withId(R.id.takePhotoButton)).perform(click());
         onData(anything()).inAdapterView(withId(R.id.gridView)).atPosition(0).perform(click());
+        Thread.sleep(1000);
 
         UiDevice device = UiDevice.getInstance(getInstrumentation());
         device.click(20,100);
+        Thread.sleep(1000);
 
         onView(withId(R.id.btnCaption)).perform(click());
+        Thread.sleep(1000);
+
         onView(withId(R.id.capView)).perform(clearText(), typeText("This is a Caption"), closeSoftKeyboard());
+        Thread.sleep(1000);
+
         onView(withId(R.id.btnSave)).perform(click());
+        Thread.sleep(1000);
+
         onView(withId(R.id.btnCaption)).perform(click());
+        Thread.sleep(1000);
+
         onView(withId(R.id.capView)).check(matches(withText("This is a Caption")));
     }
 }
