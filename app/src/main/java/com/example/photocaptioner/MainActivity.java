@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -11,16 +12,21 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.media.ExifInterface;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.twitter.sdk.android.core.Twitter;
+import com.twitter.sdk.android.tweetcomposer.TweetComposer;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
@@ -63,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
         gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 selectedPhoto =  iAdapter.getPath(position);
+
                 selectedPhotoView = (ImageView) v;
 
                 // If a previous image was selected, make it appear normal again
@@ -104,6 +111,20 @@ public class MainActivity extends AppCompatActivity {
                     ExifInterface exif = new ExifInterface(selectedPhoto);
                     Bitmap myBitmap = BitmapFactory.decodeFile(selectedPhoto);
                     selectedPictureView.setImageBitmap(myBitmap);
+
+
+
+                    pictureAlert.setButton(AlertDialog.BUTTON_POSITIVE, "Share on Twitter", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                            TweetComposer.Builder builder = new TweetComposer.Builder(MainActivity.this)
+                                    .text("A COMP 7082 Photo Captioner Post!")
+                                    .image(Uri.parse(selectedPhoto));
+                            builder.show();
+
+                        }
+                    });
 
                     // Set title of alert box
                     pictureAlert.setTitle("Selected Photo");
@@ -148,14 +169,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button settingsButton = (Button) findViewById(R.id.btnSettings);
-        settingsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openSettings(view);
-            }
-        });
-
         Button filterButton = (Button) findViewById(R.id.btnFilter);
         filterButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -164,12 +177,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button addButton = (Button) findViewById(R.id.btnSettings);
-        addButton.setOnClickListener(new View.OnClickListener() {
+        Button settingsButton = (Button) findViewById(R.id.btnSettings);
+        settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                iAdapter.updateList();
-                iAdapter.notifyDataSetChanged();
+                openSettings(view);
+
             }
         });
 
