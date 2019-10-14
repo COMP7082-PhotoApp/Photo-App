@@ -24,7 +24,14 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.twitter.sdk.android.core.DefaultLogger;
 import com.twitter.sdk.android.core.Twitter;
+import com.twitter.sdk.android.core.TwitterAuthConfig;
+import com.twitter.sdk.android.core.TwitterConfig;
+import com.twitter.sdk.android.core.TwitterCore;
+import com.twitter.sdk.android.core.TwitterSession;
+import com.twitter.sdk.android.tweetcomposer.ComposerActivity;
 import com.twitter.sdk.android.tweetcomposer.TweetComposer;
 
 import java.io.File;
@@ -54,7 +61,12 @@ public class MainActivity extends AppCompatActivity {
         activeFilter = false;
 
         //Initialize Twitter instance
-        Twitter.initialize(this);
+        TwitterConfig config = new TwitterConfig.Builder(this)
+                .logger(new DefaultLogger(Log.DEBUG))
+                .twitterAuthConfig(new TwitterAuthConfig("CONSUMER_KEY", "CONSUMER_SECRET"))
+                .debug(true)
+                .build();
+        Twitter.initialize(config);
 
         checkPermission();
 
@@ -118,10 +130,28 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
 
+                            Log.d("Photo", selectedPhoto);
+
+                            Uri photoUri = Uri.fromFile(new File(selectedPhoto));
+
+                            Log.d("Photo", photoUri.toString());
+
+                            /**
                             TweetComposer.Builder builder = new TweetComposer.Builder(MainActivity.this)
                                     .text("A COMP 7082 Photo Captioner Post!")
-                                    .image(Uri.parse(selectedPhoto));
+                                    .image(photoUri);
                             builder.show();
+                             */
+
+                            final TwitterSession session = TwitterCore.getInstance().getSessionManager()
+                                    .getActiveSession();
+                            final Intent intent = new ComposerActivity.Builder(MainActivity.this)
+                                    .session(session)
+                                    .image(photoUri)
+                                    .text("A COMP 7082 Photo Captioner Post!")
+                                    .hashtags("#test")
+                                    .createIntent();
+                            startActivity(intent);
 
                         }
                     });
