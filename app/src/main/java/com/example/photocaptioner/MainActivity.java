@@ -79,7 +79,8 @@ public class MainActivity extends AppCompatActivity {
         gv.setAdapter(iAdapter);
 
         gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, final View v, int position, long id) {
+
                 selectedPhoto =  iAdapter.getPath(position);
 
                 selectedPhotoView = (ImageView) v;
@@ -106,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
 
                 try {
                     // Show Toast
-                    ExifInterface e = new ExifInterface(selectedPhoto);
+                    final ExifInterface e = new ExifInterface(selectedPhoto);
                     Toast toast = Toast.makeText(MainActivity.this, "CAPTION: " + e.getAttribute(ExifInterface.TAG_IMAGE_DESCRIPTION) +
                             "\n DATE: " + e.getAttribute(ExifInterface.TAG_DATETIME), Toast.LENGTH_LONG);
                     TextView textView = (TextView) toast.getView().findViewById(android.R.id.message);
@@ -125,36 +126,58 @@ public class MainActivity extends AppCompatActivity {
                     selectedPictureView.setImageBitmap(myBitmap);
 
 
+                    // Create "Share on Twitter" button only if there is an existing twitter session
+                    if (TwitterCore.getInstance().getSessionManager()
+                            .getActiveSession() != null) {
 
-                    pictureAlert.setButton(AlertDialog.BUTTON_POSITIVE, "Share on Twitter", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
+                        pictureAlert.setButton(AlertDialog.BUTTON_POSITIVE, "Share on Twitter", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
 
-                            Log.d("Photo", selectedPhoto);
+                                // Declare String for caption to be extracted with exif
+                                String captionText;
+                                // Store caption in string
+                                captionText = e.getAttribute(ExifInterface.TAG_IMAGE_DESCRIPTION);
 
-                            Uri photoUri = Uri.fromFile(new File(selectedPhoto));
+                                // Retrieve Uri for current photo
+                                Uri photoUri = Uri.fromFile(new File(selectedPhoto));
 
-                            Log.d("Photo", photoUri.toString());
+                                // Set default tweet text if no caption retrieved from exif earlier
+                                if( captionText == null || captionText.isEmpty() ){
+                                    captionText = "A COMP 7082 Photo Captioner tweet";
+                                }
 
-                            /**
-                            TweetComposer.Builder builder = new TweetComposer.Builder(MainActivity.this)
-                                    .text("A COMP 7082 Photo Captioner Post!")
-                                    .image(photoUri);
-                            builder.show();
-                             */
+                                // Access the current twitter session
+                                final TwitterSession session = TwitterCore.getInstance().getSessionManager()
+                                        .getActiveSession();
 
-                            final TwitterSession session = TwitterCore.getInstance().getSessionManager()
-                                    .getActiveSession();
-                            final Intent intent = new ComposerActivity.Builder(MainActivity.this)
-                                    .session(session)
-                                    .image(photoUri)
-                                    .text("A COMP 7082 Photo Captioner Post!")
-                                    .hashtags("#test")
-                                    .createIntent();
-                            startActivity(intent);
+                                // Start twitter by passing an intent with information to construct the tweet
+                                final Intent intent = new ComposerActivity.Builder(MainActivity.this)
+                                        .session(session)
+                                        .image(photoUri)
+                                        .text(captionText)
+                                        .hashtags("#photocaptioner")
+                                        .createIntent();
+                                startActivity(intent);
 
-                        }
-                    });
+                            }
+                        });
+
+                    } else {
+
+                        // Creates a button the sends user to SettingsActivity so they can login
+                        pictureAlert.setButton(AlertDialog.BUTTON_POSITIVE, "Login to Twitter", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                                openSettings(v);
+
+                            }
+                        });
+
+
+                    }
+
 
                     // Set title of alert box
                     pictureAlert.setTitle("Selected Photo");
