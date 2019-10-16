@@ -2,9 +2,11 @@ package com.example.photocaptioner;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.twitter.sdk.android.core.Result;
@@ -26,6 +28,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         loginButton = findViewById(R.id.login_button);
 
+        Button logoutButton = findViewById(R.id.logout);
         TextView accountText = findViewById(R.id.loginText);
 
         // Hide twitter login button if user already logged in
@@ -34,6 +37,7 @@ public class SettingsActivity extends AppCompatActivity {
 
             loginButton.setVisibility(View.GONE);
             accountText.setVisibility(View.VISIBLE);
+            logoutButton.setVisibility(View.VISIBLE);
 
             TwitterSession session = TwitterCore.getInstance().getSessionManager().getActiveSession();
 
@@ -46,7 +50,11 @@ public class SettingsActivity extends AppCompatActivity {
 
                 @Override
                 public void success(Result<TwitterSession> result) {
-                    // Do something with result, which provides a TwitterSession for making API calls
+
+                    // restarts SettingsActivity to show that user has now logged in
+                    startActivity(getIntent());
+                    finish();
+
                 }
 
                 @Override
@@ -77,6 +85,10 @@ public class SettingsActivity extends AppCompatActivity {
 
             // clears the active session
             TwitterCore.getInstance().getSessionManager().clearActiveSession();
+
+            // restarts SettingsActivity to show change
+            startActivity(getIntent());
+            finish();
 
         }
 

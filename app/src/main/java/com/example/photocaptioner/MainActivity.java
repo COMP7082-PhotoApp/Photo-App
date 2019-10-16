@@ -178,7 +178,6 @@ public class MainActivity extends AppCompatActivity {
 
                     }
 
-
                     // Set title of alert box
                     pictureAlert.setTitle("Selected Photo");
 
