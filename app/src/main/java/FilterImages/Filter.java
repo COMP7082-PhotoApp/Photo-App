@@ -24,6 +24,10 @@ public class Filter {
                 String latitude = exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE);
                 String longitude = exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE);
                 String[] captions;
+                // checks to see if filteredByGPS returned false. If this condition is met, iterate to the next pass of the loop.
+                if(!filterByGPS(gpsLat, gpsLong, latitude, longitude)){
+                    continue;
+                }
                 // Checks to see if filterByDate returns false.  If this condition is met, iterate to the next pass of the loop.
                 if(!filterByDate(dateTime, dateFrom, dateTo)){
                     continue;
@@ -51,12 +55,28 @@ public class Filter {
         return filteredImages;
     }
 
+    public static boolean filterByGPS(String gpsLat, String gpsLong, String imgLat, String imgLong){
+        //check to make sure gps data is not null
+        if(imgLat != null && !imgLat.isEmpty() && !imgLat.equals("null") &&
+                imgLong != null && !imgLong.isEmpty() && !imgLong.equals("null"))
+        {
+            //breaks down the latatude and longitude by '/' characters
+            //(for now it just looks for the initial degrees and doesn't use the min or sec values
+            String[] latArray = imgLat.split("/");
+            String[] longArray = imgLong.split("/");
+            //if degrees of latatude and longitude match, return true
+            if(latArray[0].compareTo(gpsLat) == 0 && longArray[0].compareTo(gpsLong) == 0){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static boolean filterByDate(String inputDate, String startDate, String endDate){
         Date date;
         Date fromDate;
         Date toDate;
         String dateText;
-
         // Set up date formats for exif data as well as input data
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy:MM:dd");
         SimpleDateFormat lazyFormat = new SimpleDateFormat("yyyy-MM-dd");
