@@ -15,6 +15,16 @@ buildscript {
 }
 
 allprojects {
+    tasks.withType(Test) {
+        testLogging {
+            events "passed", "failed", "skipped"
+            exceptionFormat "full"
+            showCauses true
+            showExceptions true
+            showStackTraces true
+            showStandardStreams true
+        }
+    }
     repositories {
         google()
         jcenter()
@@ -25,3 +35,4 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
