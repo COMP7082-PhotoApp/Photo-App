@@ -201,6 +201,7 @@ public class MainActivity extends AppCompatActivity {
 
     /** function for Filter button */
     public void openFilterActivity(View v){
+        iAdapter.updateList();
         Intent intent = new Intent(this, SearchActivity.class);
         Bundle b = new Bundle();
         b.putSerializable("file list", iAdapter.getImages());
