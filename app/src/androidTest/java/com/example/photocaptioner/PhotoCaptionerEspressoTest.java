@@ -44,7 +44,7 @@ public class PhotoCaptionerEspressoTest {
     @Before
     public void setup() {
         MainActivity main = activityRule.getActivity();
-        //main.loadTestImageData();
+        main.loadTestImageData();
     }
 
     @Test
