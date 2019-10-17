@@ -12,7 +12,8 @@ import java.io.IOException;
 
 public class Filter {
 
-    public static File[] filterImages(File[] images, String searchWord, String dateFrom, String dateTo, String gpsLat, String gpsLong){
+    public static File[] filterImages(File[] images, String searchWord, String dateFrom, String dateTo,
+                                      String gpsLeftLat, String gpsLeftLong, String gpsRightLat, String gpsRightLong){
         File[] filteredImages;
         List<File> filteredList = new ArrayList<File>();
         for(int i = 0; i < images.length; i++){// loop through images
@@ -26,8 +27,11 @@ public class Filter {
                 String[] captions;
 
                 // checks to see if filteredByGPS returned false. If this condition is met, iterate to the next pass of the loop.
-                if(gpsLat != null && !gpsLat.isEmpty() && !gpsLat.equals("null") && gpsLong != null && !gpsLong.isEmpty() && !gpsLong.equals("null")){
-                    if(!filterByGPS(gpsLat, gpsLong, latitude, longitude)){
+                if(gpsLeftLat != null && !gpsLeftLat.isEmpty() && !gpsLeftLat.equals("null") &&
+                        gpsLeftLong != null && !gpsLeftLong.isEmpty() && !gpsLeftLong.equals("null") &&
+                        gpsRightLat != null && !gpsRightLat.isEmpty() && !gpsRightLat.equals("null") &&
+                        gpsRightLong != null && !gpsRightLong.isEmpty() && !gpsRightLong.equals("null")){
+                    if(!filterByGPS(gpsLeftLat, gpsLeftLong, gpsRightLat, gpsRightLong, latitude, longitude)){
                         continue;
                     }
                 }
@@ -59,17 +63,56 @@ public class Filter {
         return filteredImages;
     }
 
-    public static boolean filterByGPS(String gpsLat, String gpsLong, String imgLat, String imgLong){
+    public static boolean filterByGPS(String gpsLeftLat, String gpsLeftLong,
+                                      String gpsRightLat, String gpsRightLong,
+                                      String imgLat, String imgLong){
         //check to make sure gps data is not null
         if(imgLat != null && !imgLat.isEmpty() && !imgLat.equals("null") &&
                 imgLong != null && !imgLong.isEmpty() && !imgLong.equals("null"))
         {
             //breaks down the latatude and longitude by '/' characters
             //(for now it just looks for the initial degrees and doesn't use the min or sec values
-            String[] latArray = imgLat.split("/");
-            String[] longArray = imgLong.split("/");
+            String[] latArray = imgLat.split("/|,");
+            String[] longArray = imgLong.split("/|,");
+
+            int latDegree = Integer.parseInt (latArray[0]);
+            if(!latArray[1].equals("1")){
+                latDegree *= -1;
+            }
+
+            int longDegree = Integer.parseInt (longArray[0]);
+            if(!longArray[1].equals("1")){
+                longDegree *= -1;
+            }
+
+            latArray = gpsLeftLat.split("/");
+            longArray = gpsLeftLong.split("/");
+
+            int gpsLeftLatDegree = Integer.parseInt (latArray[0]);
+            if(!latArray[1].equals("1")){
+                gpsLeftLatDegree *= -1;
+            }
+            int gpsLeftLongDegree = Integer.parseInt (longArray[0]);
+            if(!longArray[1].equals("1")){
+                gpsLeftLongDegree *= -1;
+            }
+
+            latArray = gpsRightLat.split("/");
+            longArray = gpsRightLong.split("/");
+
+            int gpsRightLatDegree = Integer.parseInt (latArray[0]);
+            if(!latArray[1].equals("1")){
+                gpsRightLatDegree *= -1;
+            }
+
+            int gpsRightLongDegree = Integer.parseInt (longArray[0]);
+            if(!longArray[1].equals("1")){
+                gpsRightLongDegree *= -1;
+            }
+
             //if degrees of latatude and longitude match, return true
-            if(latArray[0].compareTo(gpsLat) == 0 && longArray[0].compareTo(gpsLong) == 0){
+            if(latDegree < gpsLeftLatDegree && latDegree > gpsRightLatDegree &&
+            longDegree < gpsLeftLongDegree && longDegree > gpsRightLongDegree){
                 return true;
             }
         }

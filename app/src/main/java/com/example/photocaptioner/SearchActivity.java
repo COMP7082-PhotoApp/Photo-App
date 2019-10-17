@@ -15,8 +15,10 @@ public class SearchActivity extends AppCompatActivity {
     String captionText;
     String dateFromText;
     String dateToText;
-    String gpsLatText;
-    String gpsLongText;
+    String gpsLeftLatText;
+    String gpsLeftLongText;
+    String gpsRightLatText;
+    String gpsRightLongText;
     Intent intent;
     Bundle b;
     public static final int FILTER_APPLIED = 1; //resultCode for applying a filter
@@ -63,13 +65,20 @@ public class SearchActivity extends AppCompatActivity {
                 edit = findViewById(R.id.date_to_input);
                 dateToText = edit.getText().toString();
 
-                edit = findViewById(R.id.gps_lat_input);
-                gpsLatText = edit.getText().toString();
+                edit = findViewById(R.id.gps_top_left_lat_input);
+                gpsLeftLatText = edit.getText().toString();
 
-                edit = findViewById(R.id.gps_long_input);
-                gpsLongText = edit.getText().toString();
+                edit = findViewById(R.id.gps_top_left_long_input);
+                gpsLeftLongText = edit.getText().toString();
 
-                File[] filteredList = Filter.filterImages(imageList, captionText, dateFromText, dateToText, gpsLatText, gpsLongText);
+                edit = findViewById(R.id.gps_bottom_right_lat_input);
+                gpsRightLatText = edit.getText().toString();
+
+                edit = findViewById(R.id.gps_bottom_right_long_input);
+                gpsRightLongText = edit.getText().toString();
+
+                File[] filteredList = Filter.filterImages(imageList, captionText, dateFromText, dateToText,
+                        gpsLeftLatText, gpsLeftLongText, gpsRightLatText, gpsRightLongText);
 
                 b.putSerializable("filtered list", filteredList);
                 intent = new Intent();
@@ -96,13 +105,21 @@ public class SearchActivity extends AppCompatActivity {
                 dateToText = null;
                 edit.setText(dateToText);
 
-                edit = findViewById(R.id.gps_lat_input);
-                gpsLatText = null;
-                edit.setText(gpsLatText);
+                edit = findViewById(R.id.gps_top_left_lat_input);
+                gpsLeftLatText = null;
+                edit.setText(gpsLeftLatText);
 
-                edit = findViewById(R.id.gps_long_input);
-                gpsLongText = null;
-                edit.setText(gpsLongText);
+                edit = findViewById(R.id.gps_top_left_long_input);
+                gpsLeftLongText = null;
+                edit.setText(gpsLeftLongText);
+
+                edit = findViewById(R.id.gps_bottom_right_lat_input);
+                gpsRightLatText = null;
+                edit.setText(gpsRightLatText);
+
+                edit = findViewById(R.id.gps_bottom_right_long_input);
+                gpsRightLongText = null;
+                edit.setText(gpsRightLongText);
 
                 intent = new Intent();
                 setResult(FILTER_CLEARED, intent);
@@ -122,11 +139,17 @@ public class SearchActivity extends AppCompatActivity {
         edit = findViewById(R.id.date_to_input);
         edit.setText(dateToText);
 
-        edit = findViewById(R.id.gps_lat_input);
-        edit.setText(gpsLatText);
+        edit = findViewById(R.id.gps_top_left_lat_input);
+        edit.setText(gpsLeftLatText);
 
-        edit = findViewById(R.id.gps_long_input);
-        edit.setText(gpsLongText);
+        edit = findViewById(R.id.gps_top_left_long_input);
+        edit.setText(gpsLeftLongText);
+
+        edit = findViewById(R.id.gps_bottom_right_lat_input);
+        edit.setText(gpsRightLatText);
+
+        edit = findViewById(R.id.gps_bottom_right_long_input);
+        edit.setText(gpsRightLongText);
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

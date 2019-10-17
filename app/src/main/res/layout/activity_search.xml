@@ -46,19 +46,37 @@
             </TableRow>
             <TableRow>
                 <TextView
-                    android:text="@string/gps_lat_txt"
+                    android:text="@string/gps_top_left_lat_txt"
                     android:layout_weight="1" />
                 <EditText
-                    android:id="@+id/gps_lat_input"
+                    android:id="@+id/gps_top_left_lat_input"
                     android:layout_weight="4"
                     android:layout_span="2" />
             </TableRow>
             <TableRow>
                 <TextView
-                    android:text="@string/gps_long_txt"
+                    android:text="@string/gps_top_left_long_txt"
                     android:layout_weight="1" />
                 <EditText
-                    android:id="@+id/gps_long_input"
+                    android:id="@+id/gps_top_left_long_input"
+                    android:layout_weight="4"
+                    android:layout_span="2" />
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:text="@string/gps_bottom_right_lat_txt"
+                    android:layout_weight="1" />
+                <EditText
+                    android:id="@+id/gps_bottom_right_lat_input"
+                    android:layout_weight="4"
+                    android:layout_span="2" />
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:text="@string/gps_bottom_right_long_txt"
+                    android:layout_weight="1" />
+                <EditText
+                    android:id="@+id/gps_bottom_right_long_input"
                     android:layout_weight="4"
                     android:layout_span="2" />
             </TableRow>

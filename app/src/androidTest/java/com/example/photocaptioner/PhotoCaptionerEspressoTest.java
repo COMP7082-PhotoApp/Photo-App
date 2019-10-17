@@ -40,9 +40,6 @@ public class PhotoCaptionerEspressoTest {
     public ActivityTestRule<MainActivity> activityRule = new ActivityTestRule<>(MainActivity.class);
     @Rule
     public GrantPermissionRule permissionRule = GrantPermissionRule.grant(android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
-    @Rule
-    public GrantPermissionRule mRuntimePermissionRule = GrantPermissionRule .grant(android.Manifest.permission.ACCESS_FINE_LOCATION);
-    @Rule public GrantPermissionRule cameraPermissionRule = GrantPermissionRule .grant(android.Manifest.permission.CAMERA);
 
     @Before
     public void setup() {
@@ -102,6 +99,37 @@ public class PhotoCaptionerEspressoTest {
         onData(anything()).inAdapterView(withId(R.id.gridView)).atPosition(0).perform(click());
         Thread.sleep(1000);
         onView(withText("Caption: Falls!\nDate: 2019:10:08 13:20:04")).check(matches(isDisplayed()));
+    }
 
+    @Test
+    public void gpsTest() throws InterruptedException{
+        onData(anything()).inAdapterView(withId(R.id.gridView)).atPosition(3).perform(click());
+        Thread.sleep(1000);
+
+        Espresso.pressBack();
+        Thread.sleep(1000);
+
+        onView(withId(R.id.btnCaption)).perform(click());
+        Thread.sleep(1000);
+
+        onView(withId(R.id.capView)).perform(scrollTo(), clearText(), typeText("GPS"), closeSoftKeyboard());
+        Thread.sleep(1000);
+
+        onView(withId(R.id.btnSave)).perform(click());
+        Thread.sleep(1000);
+
+        onView((withId(R.id.btnFilter))).perform(click());
+        Thread.sleep(1000);
+
+        onView(withId(R.id.gps_top_left_lat_input)).perform(clearText(), typeText("54/1"), closeSoftKeyboard());
+        onView(withId(R.id.gps_top_left_long_input)).perform(clearText(), typeText("118/1"), closeSoftKeyboard());
+        onView(withId(R.id.gps_bottom_right_lat_input)).perform(clearText(), typeText("52/1"), closeSoftKeyboard());
+        onView(withId(R.id.gps_bottom_right_long_input)).perform(clearText(), typeText("116/1"), closeSoftKeyboard());
+        onView((withId(R.id.btnFilter))).perform(click());
+        Thread.sleep(1000);
+
+        onData(anything()).inAdapterView(withId(R.id.gridView)).atPosition(0).perform(click());
+        Thread.sleep(1000);
+        onView(withText("Caption: GPS\nDate: 2016:09:01 13:35:35")).check(matches(isDisplayed()));
     }
 }
