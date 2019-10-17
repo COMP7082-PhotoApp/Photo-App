@@ -63,7 +63,11 @@ public class MainActivity extends AppCompatActivity {
         activeFilter = false;
 
         checkPermission();
-        loadTestImageData();
+
+        File dir = new File(Environment.DIRECTORY_DOWNLOADS);
+        if (dir.exists() && dir.isDirectory()){
+            loadTestImageData();
+        }
         //Initialize Twitter instance
         TwitterConfig config = new TwitterConfig.Builder(this)
                 .logger(new DefaultLogger(Log.DEBUG))
@@ -337,7 +341,7 @@ public class MainActivity extends AppCompatActivity {
             try {
                 if(!image.startsWith("images") && !image.startsWith("webkit")){
                     in = aManager.open(image);
-                    File outFile = new File(Objects.requireNonNull(getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)).toString(), image);
+                    File outFile = new File(getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).toString(), image);
                     out = new FileOutputStream(outFile);
                     copyFile(in, out);
                 }

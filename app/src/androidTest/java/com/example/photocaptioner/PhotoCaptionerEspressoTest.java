@@ -49,9 +49,7 @@ public class PhotoCaptionerEspressoTest {
         onData(anything()).inAdapterView(withId(R.id.gridView)).atPosition(0).perform(click());
         Thread.sleep(1000);
 
-        UiDevice device = UiDevice.getInstance(getInstrumentation());
         Espresso.pressBack();
-        //device.click(20,100);
         Thread.sleep(1000);
 
         onView(withId(R.id.btnCaption)).perform(click());
@@ -75,9 +73,7 @@ public class PhotoCaptionerEspressoTest {
         onData(anything()).inAdapterView(withId(R.id.gridView)).atPosition(11).perform(click());
         Thread.sleep(1000);
 
-        UiDevice device = UiDevice.getInstance(getInstrumentation());
         Espresso.pressBack();
-        //device.click(20,100);
         Thread.sleep(1000);
 
         onView(withId(R.id.btnCaption)).perform(click());
