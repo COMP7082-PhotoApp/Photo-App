@@ -1,5 +1,7 @@
 package com.example.photocaptioner;
 
+import android.Manifest;
+
 import androidx.test.espresso.Espresso;
 import androidx.test.rule.ActivityTestRule;
 
@@ -36,7 +38,11 @@ import static org.hamcrest.core.IsNot.not;
 public class PhotoCaptionerEspressoTest {
     @Rule
     public ActivityTestRule<MainActivity> activityRule = new ActivityTestRule<>(MainActivity.class);
-    @Rule public GrantPermissionRule permissionRule = GrantPermissionRule.grant(android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+    @Rule
+    public GrantPermissionRule permissionRule = GrantPermissionRule.grant(android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+    @Rule
+    public GrantPermissionRule mRuntimePermissionRule = GrantPermissionRule .grant(android.Manifest.permission.ACCESS_FINE_LOCATION);
+    @Rule public GrantPermissionRule cameraPermissionRule = GrantPermissionRule .grant(android.Manifest.permission.CAMERA);
 
     @Before
     public void setup() {
