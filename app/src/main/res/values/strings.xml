@@ -9,8 +9,10 @@
     <string name="caption_filter_txt">Caption:</string>
     <string name="date_from_txt">Date From:</string>
     <string name="date_to_txt">Date To:</string>
-    <string name="gps_lat_txt">Latitude:</string>
-    <string name="gps_long_txt">Longitude:</string>
+    <string name="gps_top_left_lat_txt">Top Left Latitude:</string>
+    <string name="gps_top_left_long_txt">Top Left Longitude:</string>
+    <string name="gps_bottom_right_lat_txt">Bottom Right Latitude:</string>
+    <string name="gps_bottom_right_long_txt">Bottom Right Longitude:</string>
     <string name="filter_apply_button">Filter</string>
     <string name="filter_clear_button">Clear</string>
     <string name="filter_cancel_button">Cancel</string>

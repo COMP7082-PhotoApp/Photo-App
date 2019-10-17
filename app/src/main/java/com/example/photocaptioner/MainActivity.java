@@ -63,7 +63,14 @@ public class MainActivity extends AppCompatActivity {
         activeFilter = false;
 
         checkPermission();
-        loadTestImageData();
+
+        File dir = new File(getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).toString());
+        if (dir.exists() && dir.isDirectory()){
+            loadTestImageData();
+        } else{
+            dir.mkdir();
+            loadTestImageData();
+        }
         //Initialize Twitter instance
         TwitterConfig config = new TwitterConfig.Builder(this)
                 .logger(new DefaultLogger(Log.DEBUG))
