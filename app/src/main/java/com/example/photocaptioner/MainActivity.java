@@ -64,8 +64,11 @@ public class MainActivity extends AppCompatActivity {
 
         checkPermission();
 
-        File dir = new File(Environment.DIRECTORY_DOWNLOADS);
+        File dir = new File(getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).toString());
         if (dir.exists() && dir.isDirectory()){
+            loadTestImageData();
+        } else{
+            dir.mkdir();
             loadTestImageData();
         }
         //Initialize Twitter instance
