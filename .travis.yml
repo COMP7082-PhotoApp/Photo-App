@@ -3,10 +3,11 @@
 #https://www.travis-ci.org/codecov/example-android/jobs/490283689/config
 
 language: android
+dist: trusty
 jdk: oraclejdk8
 env:
   global:
-    - ANDROID_TARGET=android-22
+    - ANDROID_TARGET=android-26
     - ANDROID_ABI=armeabi-v7a
 android:
   components:
