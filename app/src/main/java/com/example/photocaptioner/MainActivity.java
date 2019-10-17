@@ -337,7 +337,7 @@ public class MainActivity extends AppCompatActivity {
             try {
                 if(!image.startsWith("images") && !image.startsWith("webkit")){
                     in = aManager.open(image);
-                    File outFile = new File(getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).toString(), image);
+                    File outFile = new File(Objects.requireNonNull(getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)).toString(), image);
                     out = new FileOutputStream(outFile);
                     copyFile(in, out);
                 }
