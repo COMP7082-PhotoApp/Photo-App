@@ -26,7 +26,7 @@ android:
     #- extra-android-m2repository
     #- addon-google_apis-google-19
 
-    - sys-img-x86-${ANDROID_TARGET}
+    - $ANDROID_TARGET
     - sys-img-${ANDROID_ABI}-${ANDROID_TARGET}
 
 before_install:
