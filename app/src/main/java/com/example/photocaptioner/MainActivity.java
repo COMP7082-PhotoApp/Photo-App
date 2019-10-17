@@ -7,6 +7,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -15,15 +16,13 @@ import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.twitter.sdk.android.core.DefaultLogger;
 import com.twitter.sdk.android.core.Twitter;
@@ -35,7 +34,10 @@ import com.twitter.sdk.android.tweetcomposer.ComposerActivity;
 import com.twitter.sdk.android.tweetcomposer.TweetComposer;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
@@ -60,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         activeFilter = false;
 
+        checkPermission();
+        loadTestImageData();
         //Initialize Twitter instance
         TwitterConfig config = new TwitterConfig.Builder(this)
                 .logger(new DefaultLogger(Log.DEBUG))
@@ -67,8 +71,6 @@ public class MainActivity extends AppCompatActivity {
                 .debug(true)
                 .build();
         Twitter.initialize(config);
-
-        checkPermission();
 
         /** Creates a gridview and adapter to handle the images for the gridview.
          * The adapter creation and methods are handled by ImageAdapter.
@@ -106,13 +108,8 @@ public class MainActivity extends AppCompatActivity {
                 previousPosition = position;
 
                 try {
-                    // Show Toast
                     final ExifInterface e = new ExifInterface(selectedPhoto);
-                    Toast toast = Toast.makeText(MainActivity.this, "CAPTION: " + e.getAttribute(ExifInterface.TAG_IMAGE_DESCRIPTION) +
-                            "\n DATE: " + e.getAttribute(ExifInterface.TAG_DATETIME), Toast.LENGTH_LONG);
-                    TextView textView = (TextView) toast.getView().findViewById(android.R.id.message);
-                    textView.setTextColor(Color.RED);
-                    toast.show();
+                    String imageInfo = "Caption: " + e.getAttribute(ExifInterface.TAG_IMAGE_DESCRIPTION) + "\nDate: " + e.getAttribute(ExifInterface.TAG_DATETIME);
 
                     // Create alert box
                     final AlertDialog pictureAlert = dialogSetup.create();
@@ -121,7 +118,6 @@ public class MainActivity extends AppCompatActivity {
                     ImageView selectedPictureView = new ImageView(MainActivity.this);
                     // Adapted from caption activity
                     // (set bitmap in image view from selectedPhoto path)
-                    ExifInterface exif = new ExifInterface(selectedPhoto);
                     Bitmap myBitmap = BitmapFactory.decodeFile(selectedPhoto);
                     selectedPictureView.setImageBitmap(myBitmap);
 
@@ -179,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     // Set title of alert box
-                    pictureAlert.setTitle("Selected Photo");
+                    pictureAlert.setTitle(imageInfo);
 
                     // Adds image view to alert box
                     pictureAlert.setView(selectedPictureView);
@@ -324,5 +320,54 @@ public class MainActivity extends AppCompatActivity {
                 .setNegativeButton(android.R.string.ok, null)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
+    }
+
+    public void loadTestImageData(){
+        AssetManager aManager = getAssets();
+        String[] testImages = null;
+        try{
+            testImages = aManager.list("");
+        } catch(IOException e){
+            Log.e("tag", "No test images found.", e);
+        }
+
+        if (testImages != null) for (String image : testImages) {
+            InputStream in = null;
+            OutputStream out = null;
+            try {
+                if(!image.startsWith("images") && !image.startsWith("webkit")){
+                    in = aManager.open(image);
+                    File outFile = new File(getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).toString(), image);
+                    out = new FileOutputStream(outFile);
+                    copyFile(in, out);
+                }
+            } catch(IOException e) {
+                Log.e("tag", "Failed to copy asset file: " + image, e);
+            }
+            finally {
+                if (in != null) {
+                    try {
+                        in.close();
+                    } catch (IOException e) {
+                        // NOOP
+                    }
+                }
+                if (out != null) {
+                    try {
+                        out.flush();
+                        out.close();
+                    } catch (IOException e) {
+                        // NOOP
+                    }
+                }
+            }
+        }
+    }
+    private void copyFile(InputStream in, OutputStream out) throws IOException {
+        byte[] buffer = new byte[1024];
+        int read;
+        while((read = in.read(buffer)) != -1){
+            out.write(buffer, 0, read);
+        }
     }
 }

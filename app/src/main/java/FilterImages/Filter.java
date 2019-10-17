@@ -24,10 +24,14 @@ public class Filter {
                 String latitude = exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE);
                 String longitude = exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE);
                 String[] captions;
+
                 // checks to see if filteredByGPS returned false. If this condition is met, iterate to the next pass of the loop.
-                if(!filterByGPS(gpsLat, gpsLong, latitude, longitude)){
-                    continue;
+                if(gpsLat != null && !gpsLat.isEmpty() && !gpsLat.equals("null") && gpsLong != null && !gpsLong.isEmpty() && !gpsLong.equals("null")){
+                    if(!filterByGPS(gpsLat, gpsLong, latitude, longitude)){
+                        continue;
+                    }
                 }
+
                 // Checks to see if filterByDate returns false.  If this condition is met, iterate to the next pass of the loop.
                 if(!filterByDate(dateTime, dateFrom, dateTo)){
                     continue;
@@ -85,7 +89,6 @@ public class Filter {
         if(inputDate != null && !inputDate.isEmpty() && !inputDate.equals("null")){
             // Grab only the date portion of the date/time data
             dateText = inputDate.split(" ")[0];
-            System.out.println ("Input date:  " + dateText);
         } else{
             // Grab today's date
             Date today = Calendar.getInstance().getTime();
