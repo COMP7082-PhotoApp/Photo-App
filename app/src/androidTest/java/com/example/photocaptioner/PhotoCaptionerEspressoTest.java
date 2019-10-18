@@ -50,6 +50,9 @@ public class PhotoCaptionerEspressoTest {
 
     @Test
     public void ensureCaptionCreatingOrEditing() throws InterruptedException {
+        MainActivity main = activityRule.getActivity();
+        main.loadTestImageData();
+
         onData(anything()).inAdapterView(withId(R.id.gridView)).atPosition(0).perform(click());
         Thread.sleep(1000);
 
@@ -74,6 +77,9 @@ public class PhotoCaptionerEspressoTest {
 
     @Test
     public void dateTest() throws InterruptedException{
+        MainActivity main = activityRule.getActivity();
+        main.loadTestImageData();
+
         onData(anything()).inAdapterView(withId(R.id.gridView)).atPosition(11).perform(click());
         Thread.sleep(1000);
 
@@ -104,6 +110,9 @@ public class PhotoCaptionerEspressoTest {
 
     @Test
     public void gpsTest() throws InterruptedException{
+        MainActivity main = activityRule.getActivity();
+        main.loadTestImageData();
+        
         onData(anything()).inAdapterView(withId(R.id.gridView)).atPosition(3).perform(click());
         Thread.sleep(1000);
 
