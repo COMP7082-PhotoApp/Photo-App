@@ -46,4 +46,4 @@ script:
   #- adb shell setprop dalvik.vm.dexopt-flags v=n,o=v
   #- ./gradlew connectedCheck
   - ./gradlew test
-  - ./gradlew connectedAndroidTest --stacktrace --info
+  - ./gradlew connectedAndroidTest
