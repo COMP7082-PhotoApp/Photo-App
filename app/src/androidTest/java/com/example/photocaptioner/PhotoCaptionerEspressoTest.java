@@ -42,16 +42,13 @@ public class PhotoCaptionerEspressoTest {
     public GrantPermissionRule permissionRule = GrantPermissionRule.grant(android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
     @Before
-    public void setup() throws  InterruptedException{
+    public void setup() {
         MainActivity main = activityRule.getActivity();
         main.loadTestImageData();
     }
 
     @Test
     public void ensureCaptionCreatingOrEditing() throws InterruptedException {
-        MainActivity main = activityRule.getActivity();
-        main.loadTestImageData();
-
         onView((withId(R.id.btnFilter))).perform(click());
         Thread.sleep(500);
 
@@ -82,9 +79,6 @@ public class PhotoCaptionerEspressoTest {
 
     @Test
     public void dateTest() throws InterruptedException{
-        MainActivity main = activityRule.getActivity();
-        main.loadTestImageData();
-
         onData(anything()).inAdapterView(withId(R.id.gridView)).atPosition(11).perform(click());
         Thread.sleep(500);
 
@@ -115,9 +109,6 @@ public class PhotoCaptionerEspressoTest {
 
     @Test
     public void gpsTest() throws InterruptedException{
-        MainActivity main = activityRule.getActivity();
-        main.loadTestImageData();
-        
         onData(anything()).inAdapterView(withId(R.id.gridView)).atPosition(3).perform(click());
         Thread.sleep(500);
 
