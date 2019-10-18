@@ -53,6 +53,12 @@ public class PhotoCaptionerEspressoTest {
         MainActivity main = activityRule.getActivity();
         main.loadTestImageData();
 
+        onView((withId(R.id.btnFilter))).perform(click());
+        Thread.sleep(1000);
+
+        onView(((withId(R.id.btnCancel)))).perform(click());
+        Thread.sleep(1000);
+
         onData(anything()).inAdapterView(withId(R.id.gridView)).atPosition(0).perform(click());
         Thread.sleep(1000);
 
