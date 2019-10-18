@@ -25,7 +25,8 @@ public class ImageAdapter extends BaseAdapter {
     }
 
     public void updateList(){
-        File directory = new File(mContext.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).toString());
+        String path = mContext.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).toString();
+        File directory = new File(path);
         images = directory.listFiles();
     }
 
