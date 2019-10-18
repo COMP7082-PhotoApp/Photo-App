@@ -64,12 +64,6 @@ public class MainActivity extends AppCompatActivity {
 
         checkPermission();
 
-        File dir = new File(getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).toString());
-
-        if (!dir.exists() || !dir.isDirectory()){
-            dir.mkdir();
-        }
-
         //Initialize Twitter instance
         TwitterConfig config = new TwitterConfig.Builder(this)
                 .logger(new DefaultLogger(Log.DEBUG))

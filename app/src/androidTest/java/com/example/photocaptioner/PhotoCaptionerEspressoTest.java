@@ -42,34 +42,36 @@ public class PhotoCaptionerEspressoTest {
     public GrantPermissionRule permissionRule = GrantPermissionRule.grant(android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
     @Before
-    public void setup() throws  InterruptedException{
+    public void setup() {
         MainActivity main = activityRule.getActivity();
         main.loadTestImageData();
-        Thread.sleep (1000);
     }
 
     @Test
     public void ensureCaptionCreatingOrEditing() throws InterruptedException {
-        MainActivity main = activityRule.getActivity();
-        main.loadTestImageData();
+        onView((withId(R.id.btnFilter))).perform(click());
+        Thread.sleep(500);
+
+        onView(((withId(R.id.btnCancel)))).perform(click());
+        Thread.sleep(500);
 
         onData(anything()).inAdapterView(withId(R.id.gridView)).atPosition(0).perform(click());
-        Thread.sleep(1000);
+        Thread.sleep(500);
 
         Espresso.pressBack();
-        Thread.sleep(1000);
+        Thread.sleep(500);
 
         onView(withId(R.id.btnCaption)).perform(click());
-        Thread.sleep(1000);
+        Thread.sleep(500);
 
         onView(withId(R.id.capView)).perform(scrollTo(), clearText(), typeText("This is a Caption"), closeSoftKeyboard());
-        Thread.sleep(1000);
+        Thread.sleep(500);
 
         onView(withId(R.id.btnSave)).perform(click());
-        Thread.sleep(1000);
+        Thread.sleep(500);
 
         onView(withId(R.id.btnCaption)).perform(click());
-        Thread.sleep(1000);
+        Thread.sleep(500);
 
         onView(withId(R.id.capView)).check(matches(withText("This is a Caption")));
 
@@ -77,69 +79,63 @@ public class PhotoCaptionerEspressoTest {
 
     @Test
     public void dateTest() throws InterruptedException{
-        MainActivity main = activityRule.getActivity();
-        main.loadTestImageData();
-
         onData(anything()).inAdapterView(withId(R.id.gridView)).atPosition(11).perform(click());
-        Thread.sleep(1000);
+        Thread.sleep(500);
 
         Espresso.pressBack();
-        Thread.sleep(1000);
+        Thread.sleep(500);
 
         onView(withId(R.id.btnCaption)).perform(click());
-        Thread.sleep(1000);
+        Thread.sleep(500);
 
         onView(withId(R.id.capView)).perform(scrollTo(), clearText(), typeText("Falls!"), closeSoftKeyboard());
-        Thread.sleep(1000);
+        Thread.sleep(500);
 
         onView(withId(R.id.btnSave)).perform(click());
-        Thread.sleep(1000);
+        Thread.sleep(500);
 
         onView((withId(R.id.btnFilter))).perform(click());
-        Thread.sleep(1000);
+        Thread.sleep(500);
 
         onView(withId(R.id.date_from_input)).perform(clearText(), typeText("2019-08-21"), closeSoftKeyboard());
         onView(withId(R.id.date_to_input)).perform(clearText(), typeText("2019-10-23"), closeSoftKeyboard());
         onView((withId(R.id.btnFilter))).perform(click());
-        Thread.sleep(1000);
+        Thread.sleep(500);
 
         onData(anything()).inAdapterView(withId(R.id.gridView)).atPosition(0).perform(click());
-        Thread.sleep(1000);
+        Thread.sleep(500);
         onView(withText("Caption: Falls!\nDate: 2019:10:08 13:20:04")).check(matches(isDisplayed()));
     }
 
     @Test
     public void gpsTest() throws InterruptedException{
-        MainActivity main = activityRule.getActivity();
-        main.loadTestImageData();
-        
         onData(anything()).inAdapterView(withId(R.id.gridView)).atPosition(3).perform(click());
-        Thread.sleep(1000);
+        Thread.sleep(500);
 
         Espresso.pressBack();
-        Thread.sleep(1000);
+        Thread.sleep(500);
 
         onView(withId(R.id.btnCaption)).perform(click());
-        Thread.sleep(1000);
+        Thread.sleep(500);
 
         onView(withId(R.id.capView)).perform(scrollTo(), clearText(), typeText("GPS"), closeSoftKeyboard());
-        Thread.sleep(1000);
+        Thread.sleep(500);
 
         onView(withId(R.id.btnSave)).perform(click());
-        Thread.sleep(1000);
+        Thread.sleep(500);
 
         onView((withId(R.id.btnFilter))).perform(click());
-        Thread.sleep(1000);
+        Thread.sleep(500);
 
         onView(withId(R.id.gps_top_left_lat_input)).perform(clearText(), typeText("54/1"), closeSoftKeyboard());
         onView(withId(R.id.gps_top_left_long_input)).perform(clearText(), typeText("118/1"), closeSoftKeyboard());
         onView(withId(R.id.gps_bottom_right_lat_input)).perform(clearText(), typeText("52/1"), closeSoftKeyboard());
         onView(withId(R.id.gps_bottom_right_long_input)).perform(clearText(), typeText("116/1"), closeSoftKeyboard());
         onView((withId(R.id.btnFilter))).perform(click());
-        Thread.sleep(1000);
+        Thread.sleep(500);
 
         onData(anything()).inAdapterView(withId(R.id.gridView)).atPosition(0).perform(click());
-        Thread.sleep(1000);
+        Thread.sleep(500);
         onView(withText("Caption: GPS\nDate: 2016:09:01 13:35:35")).check(matches(isDisplayed()));
     }
 }
