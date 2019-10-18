@@ -42,9 +42,10 @@ public class PhotoCaptionerEspressoTest {
     public GrantPermissionRule permissionRule = GrantPermissionRule.grant(android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
     @Before
-    public void setup() {
+    public void setup() throws  InterruptedException{
         MainActivity main = activityRule.getActivity();
-        //main.loadTestImageData();
+        main.loadTestImageData();
+        Thread.sleep (1000);
     }
 
     @Test
